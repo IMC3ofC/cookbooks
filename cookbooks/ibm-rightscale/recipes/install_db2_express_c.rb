@@ -22,7 +22,7 @@ end
 
 
 
-if File.exists?("/opt/ibm/db2.lock") do
+if File.exists?("/opt/ibm/db2.lock")
   log "DB2 ALREADY INSTALLED"
 
   #echo "0 $(hostname) 0" > ${DB2_CONFIG_PATH}/home/db2inst1/sqllib/db2nodes.cfg
