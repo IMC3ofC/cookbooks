@@ -8,6 +8,7 @@
   "platforms": {
   },
   "dependencies": {
+    "rightscale": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -20,11 +21,166 @@
   "replacing": {
   },
   "attributes": {
+    "db2/instance/username": {
+      "display_name": "DB2 Instance owner username",
+      "description": "Username for the DB2 instance owner.",
+      "required": "recommended",
+      "default": "db2inst1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/instance/password": {
+      "display_name": "DB2 Instance owner password",
+      "description": "Password for the DB2 instance owner.",
+      "required": "recommended",
+      "default": "passw0rd",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/instance/group": {
+      "display_name": "DB2 Instance owner group",
+      "description": "Primary Group for the DB2 instance owner.",
+      "required": "recommended",
+      "default": "db2iadm1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/das/username": {
+      "display_name": "DB2 das owner username",
+      "description": "Username for the DB2 das owner.",
+      "required": "recommended",
+      "default": "dasusr1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/das/password": {
+      "display_name": "DB2 das owner password",
+      "description": "Password for the DB2 das owner.",
+      "required": "recommended",
+      "default": "passw0rd",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/das/group": {
+      "display_name": "DB2 das owner group",
+      "description": "Primary Group for the DB2 das owner.",
+      "required": "recommended",
+      "default": "dasadm1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/fenced/username": {
+      "display_name": "DB2 Fenced owner username",
+      "description": "Username for the DB2 fenced owner.",
+      "required": "recommended",
+      "default": "db2fenc1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/fenced/password": {
+      "display_name": "DB2 Fenced owner password",
+      "description": "Password for the DB2 fenced owner.",
+      "required": "recommended",
+      "default": "passw0rd",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/fenced/group": {
+      "display_name": "DB2 Fenced owner group",
+      "description": "Primary Group for the DB2 fenced owner.",
+      "required": "recommended",
+      "default": "db2fadm1",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/data_path": {
+      "display_name": "DB2 Data Directory",
+      "description": "The location on disk where the DB2 Data Directory will be installed.",
+      "required": "recommended",
+      "default": "/mnt/database",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "db2/system": {
+      "display_name": "DB2 System name",
+      "description": "The name of the DB2 system.",
+      "required": "recommended",
+      "default": "DB2onRS",
+      "recipes": [
+        "ibm-rightscale::install_db2_express_c"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    }
   },
   "groupings": {
   },
   "recipes": {
-    "ibm-rightscale::helloworld": "My first recipe, prints Hello World to the RightScale dashboard"
+    "ibm-rightscale::helloworld": "My first recipe, prints Hello World to the RightScale dashboard",
+    "ibm-rightscale::install_db2_express_c": "Install DB2 Express-C 10.5"
   },
   "version": "0.1.0"
 }
