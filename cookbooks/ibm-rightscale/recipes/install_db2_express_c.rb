@@ -59,7 +59,7 @@ else
     action :delete
   end
   
-  directory File.join(node[:db2][:data_path], log) do
+  directory File.join(node[:db2][:data_path], "log") do
     mode 2777
   end
 
