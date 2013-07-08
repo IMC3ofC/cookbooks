@@ -22,7 +22,7 @@ else
   %w{compat-libstdc++-33 libstdc++-devel dapl dapl-devel libibverbs-devel}.each do |pkg|
     package pkg
   end
-  yum_package "pam" do
+  yum_package "pam.i686" do
     version "1.1.1-13.el6"
 	action :install
   end
