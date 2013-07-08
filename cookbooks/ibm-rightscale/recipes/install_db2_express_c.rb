@@ -28,14 +28,12 @@ if File.exists?("/opt/ibm/db2.lock")
   #echo "0 $(hostname) 0" > ${DB2_CONFIG_PATH}/home/db2inst1/sqllib/db2nodes.cfg
 else
   directory node[:db2][:data_path] do
-    owner "db2inst1"
     mode 0755
     action :create
   end
 	
   %w{backups log}.each do |dir|
     directory File.join(node[:db2][:data_path], dir) do
-      owner "db2inst1"
       mode 0755
       action :create
     end
@@ -71,6 +69,7 @@ else
   directory node[:db2][:data_path] do
     owner node[:db2][:instance][:username]
 	group node[:db2][:instance][:group]
+	recursive true
   end
 end
 
