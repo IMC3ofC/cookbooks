@@ -18,7 +18,7 @@ else
   %w{compat-libstdc++-33 libstdc++-devel dapl dapl-devel libibverbs-devel}.each do |pkg|
     package pkg
   end
-  yum_package "pam.i686" do
+  yum_package "pam" do
     arch "i386"
   end
 end
