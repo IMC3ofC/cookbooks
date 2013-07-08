@@ -23,7 +23,6 @@ else
     package pkg
   end
   yum_package "pam" do
-    arch "i386" 
     version "1.1.1-13.el6"
 	action :install
   end
