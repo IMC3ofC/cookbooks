@@ -1,5 +1,7 @@
 rightscale_marker :begin
 
+require "/var/spool/cloud/meta-data.rb"
+
 log "Installing DB2 Express-C 10.5"
 
 case node[:platform]
@@ -13,23 +15,30 @@ when "debian", "ubuntu"
     package pkg
   end
   
-  #ln -s /lib/i386-linux-gnu/libpam.so.0 /lib/
+  link "/lib/i386-linux-gnu/libpam.so.0" do
+    to "/lib/libpam.so.0"
+  end
 else
   %w{compat-libstdc++-33 libstdc++-devel dapl dapl-devel libibverbs-devel}.each do |pkg|
     package pkg
   end
-  package "pam.i686" do
+  yum_package "pam" do
+    arch "i386" 
     version "1.1.1-13.el6"
 	action :install
   end
 end
 
 
-
 if File.exists?("/opt/ibm/db2.lock")
   log "DB2 ALREADY INSTALLED"
 
-  #echo "0 $(hostname) 0" > ${DB2_CONFIG_PATH}/home/db2inst1/sqllib/db2nodes.cfg
+  execute "install-db2" do
+    command "echo '0 #{ENV['EC2_HOSTNAME']} 0' > /home/#{node[:db2][:instance][:username]}/sqllib/db2nodes.cfg"
+    user "root"
+	action :run
+  end
+  
 else
   directory node[:db2][:data_path] do
     mode 0755
