@@ -20,7 +20,7 @@ else
   end
   package "pam.i686" do
     version "1.1.1-13.el6"
-    arch "i386"
+    #arch "i386"
 	action :install
   end
 end
