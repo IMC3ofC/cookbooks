@@ -1,5 +1,16 @@
 rightscale_marker :begin
 
+log "Setting up DB2 Download"
+
+directory "/var/imcloud" do
+  action :create
+end
+
+template "/var/imcloud/imcloud_client.yml" do
+  source "imcloud_client.yml.erb"
+  user :root
+end
+
 log "Installing DB2 Express-C 10.5"
 
 case node[:platform]
@@ -80,6 +91,12 @@ else
     owner node[:db2][:instance][:username]
 	group node[:db2][:instance][:group]
 	recursive true
+  end
+  
+  file File.join("/home", node[:db2][:instance][:username], ".bashrc") do
+    owner node[:db2][:instance][:username]
+    group node[:db2][:instance][:group]
+    source ".bashrc"
   end
 end
 

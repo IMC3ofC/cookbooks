@@ -102,3 +102,20 @@ attribute "db2/system",
    :required => "recommended",
    :default => "DB2onRS",
    :recipes => ["ibm-rightscale::install_db2_express_c"]
+
+
+## INPUTS FOR DOWNLOAD API
+
+attribute "api/key",
+   :display_name => "API Key for Download API",
+   :description => "The API Key to use for the Download API.",
+   :required => "recommended",
+   :default => "71b25a8274d595ffe00d96960d55f8acf8f2caf0b79c1f134c1b0d62739f2eeb",
+   :recipes => ["ibm-rightscale::install_db2_express_c"]
+
+attribute "api/url",
+   :display_name => "API End-point URL for Download API",
+   :description => "The End-point URL to use for the Download API.",
+   :required => "recommended",
+   :default => "https://my.imdemocloud.com:443/api",
+   :recipes => ["ibm-rightscale::install_db2_express_c"]
