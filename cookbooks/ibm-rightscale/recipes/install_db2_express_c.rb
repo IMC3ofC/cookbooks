@@ -1,7 +1,5 @@
 rightscale_marker :begin
 
-require "/var/spool/cloud/meta-data.rb"
-
 log "Installing DB2 Express-C 10.5"
 
 case node[:platform]
@@ -33,7 +31,7 @@ if File.exists?("/opt/ibm/db2.lock")
   log "DB2 ALREADY INSTALLED"
 
   execute "install-db2" do
-    command "echo '0 #{ENV['EC2_HOSTNAME']} 0' > /home/#{node[:db2][:instance][:username]}/sqllib/db2nodes.cfg"
+    command "echo '0 #{`hostname -f`.strip} 0' > /home/#{node[:db2][:instance][:username]}/sqllib/db2nodes.cfg"
     user "root"
 	action :run
   end
