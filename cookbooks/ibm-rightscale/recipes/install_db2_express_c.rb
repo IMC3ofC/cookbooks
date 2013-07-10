@@ -13,10 +13,10 @@ template "/var/imcloud/imcloud_client.yml" do
   user "root"
 end
 
-cookbook_file File.join("/opt/imcloud/imcloud_client.rb") do
+cookbook_file "/opt/imcloud/imcloud_client.rb" do
   owner "root"
   group "root"
-  mode  "700"
+  mode  0700
   source "imcloud_client.rb"
 end
 
@@ -35,7 +35,7 @@ Gem.clear_paths
 require "rightscale_tools"
 
 require 'rubygems'
-require '/opt/imcloud/imcloud_client'
+require '/opt/imcloud/imcloud_client.rb'
 
 
 log node[:cloud].inspect
@@ -135,7 +135,6 @@ else
   cookbook_file File.join("/home", node[:db2][:instance][:username], ".bashrc") do
     owner node[:db2][:instance][:username]
     group node[:db2][:instance][:group]
-    source ".bashrc"
   end
 end
 
