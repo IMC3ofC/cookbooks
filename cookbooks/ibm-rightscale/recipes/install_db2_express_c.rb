@@ -13,7 +13,7 @@ template "/var/imcloud/imcloud_client.yml" do
   user "root"
 end
 
-file File.join("/opt/imcloud/imcloud_client.rb") do
+cookbook_file File.join("/opt/imcloud/imcloud_client.rb") do
   owner "root"
   group "root"
   mode  "700"
@@ -23,9 +23,22 @@ end
 
 ## Require libraries
 
+class Chef::Recipe
+  include RightScale::BlockDeviceHelper
+end
+
+class Chef::Resource::BlockDevice
+  include RightScale::BlockDeviceHelper
+end
+
+Gem.clear_paths
+require "rightscale_tools"
+
 require 'rubygems'
 require '/opt/imcloud/imcloud_client'
-require 'rightscale_tools'
+
+
+log node[:cloud].inspect
 
 log "Download Attachments"
 storage_cloud = "aws"
@@ -119,7 +132,7 @@ else
 	recursive true
   end
   
-  file File.join("/home", node[:db2][:instance][:username], ".bashrc") do
+  cookbook_file File.join("/home", node[:db2][:instance][:username], ".bashrc") do
     owner node[:db2][:instance][:username]
     group node[:db2][:instance][:group]
     source ".bashrc"
