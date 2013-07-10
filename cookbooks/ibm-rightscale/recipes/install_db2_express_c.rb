@@ -23,15 +23,22 @@ end
 
 ## Require libraries
 
-class Chef::Recipe
-  include RightScale::BlockDeviceHelper
+#class Chef::Recipe
+#  include RightScale::BlockDeviceHelper
+#end
+#
+#class Chef::Resource::BlockDevice
+#  include RightScale::BlockDeviceHelper
+#end
+
+rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
+
+gem_package "rightscale_tools" do
+  source rightscale_tools_gem
+  action :install
 end
 
-class Chef::Resource::BlockDevice
-  include RightScale::BlockDeviceHelper
-end
-
-Gem.clear_paths
+#Gem.clear_paths
 require "rightscale_tools"
 
 require 'rubygems'
