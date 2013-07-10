@@ -13,12 +13,12 @@ template "/var/imcloud/imcloud_client.yml" do
   user "root"
 end
 
-cookbook_file "/opt/imcloud/imcloud_client.rb" do
-  owner "root"
-  group "root"
-  mode  0700
-  source "imcloud_client.rb"
-end
+#cookbook_file "/opt/imcloud/imcloud_client.rb" do
+#  owner "root"
+#  group "root"
+#  mode  0700
+#  source "imcloud_client.rb"
+#end
 
 
 ## Require libraries
@@ -31,6 +31,10 @@ end
 #  include RightScale::BlockDeviceHelper
 #end
 
+class Chef::Recipe
+  include IMCloudClient
+end
+
 rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
 
 gem_package "rightscale_tools" do
@@ -42,7 +46,7 @@ end
 require "rightscale_tools"
 
 require 'rubygems'
-require '/opt/imcloud/imcloud_client.rb'
+#require '/opt/imcloud/imcloud_client.rb'
 
 
 log node[:cloud].inspect
