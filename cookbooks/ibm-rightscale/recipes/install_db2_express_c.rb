@@ -1,15 +1,41 @@
 rightscale_marker :begin
 
-log "Setting up DB2 Download"
+log "Setting up DB2 Download API"
 
-directory "/var/imcloud" do
-  action :create
+["/var/imcloud", "/opt/imcloud"].each do |dir|
+  directory dir do
+    action :create
+  end
 end
 
 template "/var/imcloud/imcloud_client.yml" do
   source "imcloud_client.yml.erb"
-  user :root
+  user "root"
 end
+
+file File.join("/opt/imcloud/imcloud_client.rb") do
+  owner "root"
+  group "root"
+  mode  "700"
+  source "imcloud_client.rb"
+end
+
+
+## Require libraries
+
+require 'rubygems'
+require '/opt/imcloud/imcloud_client'
+require 'rightscale_tools'
+
+log "Download Attachments"
+storage_cloud = "aws"
+geo = "us-east-1"
+
+to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
+files       = to_download.first["download"]["url"][5..-1].split("/",2)
+
+@ros = RightScale::Tools::ROS.factory(storage_cloud, to_download.first["download"]["key"], to_download.first["download"]["secret"])
+@ros.get_object_to_file files.first, files.last, File.join("/tmp", files.last.split("/").last)
 
 log "Installing DB2 Express-C 10.5"
 
