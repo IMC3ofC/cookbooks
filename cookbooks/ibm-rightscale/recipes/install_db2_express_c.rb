@@ -40,8 +40,8 @@ geo           = "us-east-1"
 to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
 files       = to_download.first["download"]["url"][5..-1].split("/",2)
 
-puts "Key: #{to_download.first["download"]["key"]}"
-puts "Secret: #{to_download.first["download"]["secret"]}"
+log "Key: #{to_download.first["download"]["key"]}"
+log "Secret: #{to_download.first["download"]["secret"]}"
 
 @ros = RightScale::Tools::ROS.factory("s3", to_download.first["download"]["key"], to_download.first["download"]["secret"])
 @ros.get_object_to_file(files.first, files.last, File.join("/tmp", files.last.split("/").last))
