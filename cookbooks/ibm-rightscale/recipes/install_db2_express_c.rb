@@ -44,7 +44,11 @@ files       = to_download.first["download"]["url"][5..-1].split("/",2)
 
 log "Need to download: #{files.first} / #{files.last}"
 log "To: #{File.join("/tmp", files.last.split("/").last)}"
-#@ros.get_object_to_file(files.first, files.last, File.join("/tmp", files.last.split("/").last))
+begin
+  @ros.get_object_to_file(files.first, files.last, File.join("/tmp", files.last.split("/").last))
+rescue Exception => msg  
+  log msg
+end
 
 log "Installing DB2 Express-C 10.5"
 
