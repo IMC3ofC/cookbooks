@@ -96,7 +96,7 @@ else
   end
 
   execute "extract-db2-media" do
-    command "tar --index-file /tmp/db2exc.tar.log -xvvf /tmp/v10.5_linuxx64_*.tar.gz -C /mnt/"
+    command "tar --index-file /tmp/db2exc.tar.log -xvvf /tmp/v10.5_linuxx64_expc.tar.gz -C /mnt/"
     user "root"
 	action :nothing
   end
