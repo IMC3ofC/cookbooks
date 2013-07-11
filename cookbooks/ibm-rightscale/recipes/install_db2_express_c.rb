@@ -10,10 +10,15 @@ directory "/opt/imcloud" do
   action :create
 end
 
-template "/var/imcloud/imcloud_client.yml" do
-  source "imcloud_client.yml.erb"
-  user "root"
+IMCloudClient.configure do |config|
+  config.api_key = node[:api][:key]
+  config.api_url = node[:api][:url]
 end
+
+#template "/var/imcloud/imcloud_client.yml" do
+#  source "imcloud_client.yml.erb"
+#  user "root"
+#end
 
 ## Require libraries
 
