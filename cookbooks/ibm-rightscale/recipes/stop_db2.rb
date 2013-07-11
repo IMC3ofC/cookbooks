@@ -3,7 +3,7 @@ rightscale_marker :begin
 log "Stopping DB2"
 
 execute "db2stop" do
-  command "db2stop #{node[:db2][:force] == "yes" ? 'force' : ''}"
+  command "db2stop #{node[:db2][:force] == 'yes' ? 'force' : ''}"
   user node[:db2][:instance][:username]
   action :run
 end
