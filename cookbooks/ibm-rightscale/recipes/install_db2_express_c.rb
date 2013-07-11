@@ -2,24 +2,6 @@ rightscale_marker :begin
 
 log "Setting up DB2 Download API"
 
-directory "/var/imcloud" do
-  action :create
-end
-
-directory "/opt/imcloud" do
-  action :create
-end
-
-IMCloudClient.configure do |config|
-  config.api_key = node[:api][:key]
-  config.api_url = node[:api][:url]
-end
-
-#template "/var/imcloud/imcloud_client.yml" do
-#  source "imcloud_client.yml.erb"
-#  user "root"
-#end
-
 ## Require libraries
 
 class Chef::Recipe
@@ -42,6 +24,11 @@ log "Download Attachments"
 storage_cloud = "aws"
 geo           = "us-east-1"
 
+IMCloudClient.configure do |config|
+  config.api_key = node[:api][:key]
+  config.api_url = node[:api][:url]
+end
+
 to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
 files       = to_download.first["download"]["url"][5..-1].split("/",2)
 
@@ -51,6 +38,7 @@ install_media_location = File.join("/tmp", files.last.split("/").last)
 
 log "Need to download: #{files.first} / #{files.last}"
 log "To: #{install_media_location}"
+
 begin
   @ros.get_object_to_file(files.first, files.last, install_media_location)
 rescue Exception => msg  
