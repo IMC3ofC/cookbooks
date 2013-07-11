@@ -31,13 +31,16 @@ end
 #Gem.clear_paths
 require "rightscale_tools"
 
-log node[:cloud].inspect
+log "Provider: #{node[:cloud][:provider]}"
 
 log "Download Attachments"
 storage_cloud = "aws"
 geo           = "us-east-1"
 
-#to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
+to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
+
+log "Download: #{to_download}"
+
 #files       = to_download.first["download"]["url"][5..-1].split("/",2)
 
 #@ros = RightScale::Tools::ROS.factory("s3", to_download.first["download"]["key"], to_download.first["download"]["secret"])
