@@ -2,10 +2,12 @@ rightscale_marker :begin
 
 log "Setting up DB2 Download API"
 
-["/var/imcloud", "/opt/imcloud"].each do |dir|
-  directory dir do
-    action :create
-  end
+directory "/var/imcloud" do
+  action :create
+end
+
+directory "/opt/imcloud" do
+  action :create
 end
 
 template "/var/imcloud/imcloud_client.yml" do
@@ -13,23 +15,7 @@ template "/var/imcloud/imcloud_client.yml" do
   user "root"
 end
 
-#cookbook_file "/opt/imcloud/imcloud_client.rb" do
-#  owner "root"
-#  group "root"
-#  mode  0700
-#  source "imcloud_client.rb"
-#end
-
-
 ## Require libraries
-
-#class Chef::Recipe
-#  include RightScale::BlockDeviceHelper
-#end
-#
-#class Chef::Resource::BlockDevice
-#  include RightScale::BlockDeviceHelper
-#end
 
 class Chef::Recipe
   include IMCloudClient
