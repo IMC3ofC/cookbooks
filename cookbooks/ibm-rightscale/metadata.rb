@@ -134,13 +134,13 @@ attribute "db2/database/options",
 attribute "api/key",
    :display_name => "API Key for Download API",
    :description => "The API Key to use for the Download API.",
-   :required => "recommended",
+   :required => "optional",
    :default => "643a4018ad2c16314ad4ddf6aecfbd4bd34be3bd95ccfe146d1b9be214e406aa",
    :recipes => ["ibm-rightscale::install_db2_express_c"]
 
 attribute "api/url",
    :display_name => "API End-point URL for Download API",
    :description => "The End-point URL to use for the Download API.",
-   :required => "recommended",
+   :required => "optional",
    :default => "https://my.imdemocloud.com:443/api",
    :recipes => ["ibm-rightscale::install_db2_express_c"]
