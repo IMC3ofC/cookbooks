@@ -8,12 +8,12 @@ class Chef::Recipe
   include IMCloudClient
 end
 
-rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
+#rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
 
-gem_package "rightscale_tools" do
-  source rightscale_tools_gem
-  action :install
-end
+#gem_package "rightscale_tools" do
+#  source rightscale_tools_gem
+#  action :install
+#end
 
 require "rightscale_tools"
 
