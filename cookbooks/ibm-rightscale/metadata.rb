@@ -9,14 +9,14 @@ version          '0.1.0'
 depends "rightscale"
 
 # My recipes
-recipe "ibm-rightscale::install_db2_express_c", "Install DB2 Express-C 10.5"
+recipe "ibm-rightscale::install_db2_express_c",           "Install DB2 Express-C 10.5"
 recipe "ibm-rightscale::start_db2",                       "Start DB2"
 recipe "ibm-rightscale::stop_db2",                        "Stop DB2"
 recipe "ibm-rightscale::start_db2_administration_server", "Start DB2 Administration Server"
 recipe "ibm-rightscale::stop_db2_administration_server",  "Stop DB2 Administration Server"
 recipe "ibm-rightscale::create_database",                 "Create DB2 Database"
 recipe "ibm-rightscale::backup_database",                 "Backup DB2 Database"
-recipe "ibm-rightscale::restore_database",                 "Restore DB2 Database"
+recipe "ibm-rightscale::restore_database",                "Restore DB2 Database"
 
 #
 # My Attributes
@@ -127,7 +127,7 @@ attribute "db2/database/name",
 
 attribute "db2/database/options",
    :display_name => "DB2 Database Options",
-   :description => "The options for the DB2 Database.",
+   :description => "Any extra options to pass to the DB2 command.",
    :required => "optional",
    :recipes => ["ibm-rightscale::create_database", "ibm-rightscale::backup_database", "ibm-rightscale::restore_database"]
 
@@ -176,14 +176,16 @@ attribute "backup/bucket",
 
 attribute "backup/path",
    :display_name => "Backup Path",
-   :description => "What path would you like to use for the Backup?",
+   :description => "Where would you like to backup/restore your backup to/from?" +
+                   " For Amazon s3, this refers to the prefix on s3 where the" +
+				   " database backups are located.",
    :required => "recommended",
    :type => "string",
    :recipes => ["ibm-rightscale::backup_database", "ibm-rightscale::restore_database"]
    
 attribute "backup/cloud/name",
    :display_name => "Cloud Name",
-   :description => "Which cloud do you want to backup to?",
+   :description => "Which cloud do you want to backup to? (s3/sofylayer)",
    :required => "recommended",
    :choice => ["s3", "softlayer"],
    :default => "s3",
@@ -191,15 +193,17 @@ attribute "backup/cloud/name",
 
 attribute "backup/cloud/key",
    :display_name => "Cloud Key",
-   :description => "For Amazon S3, use your Amazon key ID" +
+   :description => "This should be set to your the cloud's access key" +
+                   " For Amazon S3, use your Amazon key ID" +
                    " (e.g., cred:AWS_ACCESS_KEY_ID).",
    :required => "recommended",
    :default => "",
    :recipes => ["ibm-rightscale::backup_database", "ibm-rightscale::restore_database"]
    
 attribute "backup/cloud/secret",
-   :display_name => "Cloud Secret",
-   :description => "For Amazon S3, use your Amazon secret key" +
+   :display_name => "Cloud Secret Key",
+   :description => "This should be set to your the cloud's secret key" +
+                   " For Amazon S3, use your Amazon secret key" +
                    " (e.g., cred:AWS_SECRET_ACCESS_KEY).",
    :required => "recommended",
    :default => "",
