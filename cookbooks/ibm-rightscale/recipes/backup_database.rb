@@ -29,10 +29,6 @@ if node[:backup][:save_to_cloud] == "yes"
   #newest = backup_files.max { |a,b| (File.mtime(File.join(dir,a)) <=> File.mtime(File.join(dir,b))) }
   newest = `ls #{users_home_dir} | grep #{node[:db2][:database][:name]} | sort | tail -1`.strip
   
-  log "users_home_dir: #{users_home_dir.inspect}"
-  #log "backup_files: #{backup_files.inspect}"
-  log "newest: #{newest.inspect}"
-  
   @ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
 
   begin
