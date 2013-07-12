@@ -27,7 +27,7 @@ if node[:backup][:save_to_cloud] == "yes"
   backup_files = Dir.entries(users_home_dir).select { |file| file.include?(node[:db2][:database][:name]) }
   newest = backup_files.max { |a,b| (File.mtime(File.join(dir,a)) <=> File.mtime(File.join(dir,b))) }
   
-  @ros = RightScale::Tools::ROS.factory(node[:cloud][:name], node[:cloud][:key], node[:cloud][:secret])
+  @ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
   
   @ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
 end
