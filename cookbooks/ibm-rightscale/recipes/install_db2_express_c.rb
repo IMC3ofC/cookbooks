@@ -101,13 +101,11 @@ else
 
   execute "extract-db2-media" do
     command "tar --index-file /tmp/db2exc.tar.log -xvvf /tmp/v10.5_linuxx64_expc.tar.gz -C /mnt/"
-    user "root"
 	action :nothing
   end
 
   execute "install-db2" do
     command "/mnt/expc/db2setup -r /tmp/db2.rsp"
-    user "root"
 	action :nothing
   end
   
