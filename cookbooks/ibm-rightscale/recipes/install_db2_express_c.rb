@@ -35,7 +35,7 @@ to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => "http
 #@ros = RightScale::Tools::ROS.factory("s3", to_download.first["download"]["key"], to_download.first["download"]["secret"])
 
 #install_media_location = File.join("/tmp", files.last.split("/").last)
-install_media_location = to_download.split("/").last
+install_media_location = to_download.first["download"]["url"].split("/").last
 
 #log "Need to download: #{files.first} / #{files.last}"
 #log "To: #{install_media_location}"
