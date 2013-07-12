@@ -49,7 +49,7 @@ install_media_location = to_download.first["download"]["url"].split("/").last
 #end
 
 remote_file install_media_location do
-  source to_download
+  source to_download.first["download"]["url"]
 end
 
 log "Installing DB2 Express-C 10.5"
