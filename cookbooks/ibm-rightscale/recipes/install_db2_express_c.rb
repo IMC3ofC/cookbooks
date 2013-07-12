@@ -105,12 +105,21 @@ else
     user "root"
 	action :nothing
   end
+  
+  bash "setup-ibm-java" do
+    code <<-EOH
+	update-alternatives --install "/usr/bin/java" "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java" 0
+	update-alternatives --set "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java"
+	EOH
+	action :nothing
+  end
 
   log "  Configure DB2 Install Response file - /tmp/db2.rsp"
   template "/tmp/db2.rsp" do
     source "db2.rsp.erb"
 	notifies :run, "execute[extract-db2-media]", :immediately
 	notifies :run, "execute[install-db2]", :immediately
+	notifies :run, "script[setup-ibm-java]", :immediately
   end
   
   file install_media_location do
