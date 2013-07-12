@@ -23,7 +23,7 @@ if node[:backup][:save_to_cloud] == "yes"
   
   require "rightscale_tools"
   
-  users_home_dir = File.join("/home", node[:db2][:instance][:username]
+  users_home_dir = File.join("/home", node[:db2][:instance][:username])
   backup_files = Dir.entries(users_home_dir).select { |file| file.include?(node[:db2][:database][:name]) }
   newest = backup_files.max { |a,b| (File.mtime(File.join(dir,a)) <=> File.mtime(File.join(dir,b))) }
   

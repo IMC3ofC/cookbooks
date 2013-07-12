@@ -153,7 +153,7 @@ attribute "api/url",
 attribute "backup/save_to_cloud",
    :display_name => "Save to Cloud",
    :description => "Would you like to save the backup to the Cloud?",
-   :required => "recommended",
+   :required => "required",
    :choice => ["yes", "no"],
    :default => "no",
    :recipes => ["ibm-rightscale::backup_database"]
