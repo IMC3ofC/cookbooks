@@ -200,6 +200,7 @@
       "display_name": "Database name",
       "description": "The name of the DB2 Database.",
       "required": "required",
+      "type": "string",
       "recipes": [
         "ibm-rightscale::create_database",
         "ibm-rightscale::backup_database"
@@ -207,8 +208,7 @@
       "choice": [
 
       ],
-      "calculated": false,
-      "type": "string"
+      "calculated": false
     },
     "db2/database/options": {
       "display_name": "DB2 Database Options",
@@ -271,27 +271,27 @@
       "display_name": "Backup Bucket",
       "description": "What bucket would you like to use for the Backup?",
       "required": "recommended",
+      "type": "string",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
       "choice": [
 
       ],
-      "calculated": false,
-      "type": "string"
+      "calculated": false
     },
     "backup/path": {
       "display_name": "Backup Path",
       "description": "What path would you like to use for the Backup?",
       "required": "recommended",
+      "type": "string",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
       "choice": [
 
       ],
-      "calculated": false,
-      "type": "string"
+      "calculated": false
     },
     "backup/cloud/name": {
       "display_name": "Cloud Name",
@@ -301,6 +301,7 @@
         "s3",
         "softlayer"
       ],
+      "default": "s3",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
@@ -311,6 +312,7 @@
       "display_name": "Cloud Key",
       "description": "What is your cloud key?",
       "required": "recommended",
+      "default": "CRED:AWS_ACCESS_KEY_ID",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
@@ -324,6 +326,7 @@
       "display_name": "Cloud Secret",
       "description": "What is your cloud secret?",
       "required": "recommended",
+      "default": "CRED:AWS_SECRET_ACCESS_KEY",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
