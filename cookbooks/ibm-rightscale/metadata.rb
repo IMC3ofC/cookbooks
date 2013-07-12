@@ -122,6 +122,7 @@ attribute "db2/database/name",
    :display_name => "Database name",
    :description => "The name of the DB2 Database.",
    :required => "required",
+   :type => "text",
    :recipes => ["ibm-rightscale::create_database", "ibm-rightscale::backup_database"]
 
 attribute "db2/database/options",
@@ -162,12 +163,14 @@ attribute "backup/bucket",
    :display_name => "Backup Bucket",
    :description => "What bucket would you like to use for the Backup?",
    :required => "recommended",
+   :type => "text",
    :recipes => ["ibm-rightscale::backup_database"]
 
 attribute "backup/path",
    :display_name => "Backup Path",
    :description => "What path would you like to use for the Backup?",
    :required => "recommended",
+   :type => "text",
    :recipes => ["ibm-rightscale::backup_database"]
    
 attribute "backup/cloud/name",
@@ -175,16 +178,21 @@ attribute "backup/cloud/name",
    :description => "Which cloud do you want to backup to?",
    :required => "recommended",
    :choice => ["s3", "softlayer"],
+   :default => "s3",
    :recipes => ["ibm-rightscale::backup_database"]
 
 attribute "backup/cloud/key",
    :display_name => "Cloud Key",
    :description => "What is your cloud key?",
    :required => "recommended",
+   :type => "cred",
+   :default => "AWS_ACCESS_KEY_ID",
    :recipes => ["ibm-rightscale::backup_database"]
    
 attribute "backup/cloud/secret",
    :display_name => "Cloud Secret",
    :description => "What is your cloud secret?",
    :required => "recommended",
+   :type => "cred",
+   :default => "AWS_SECRET_ACCESS_KEY",
    :recipes => ["ibm-rightscale::backup_database"]
