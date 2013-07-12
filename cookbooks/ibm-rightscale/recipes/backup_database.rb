@@ -35,7 +35,13 @@ if node[:backup][:save_to_cloud] == "yes"
   
   @ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
 
-  @ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
+  begin
+    @ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
+  rescue Exception => msg  
+    log msg
+    log msg.backtrace
+    log msg.class
+  end
 end
 
 rightscale_marker :end
