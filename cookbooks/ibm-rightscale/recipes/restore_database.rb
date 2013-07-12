@@ -2,7 +2,7 @@ rightscale_marker :begin
 
 log "Restore DB2 Database"
 
-if node[:backup][:save_to_cloud] == "yes"
+if node[:backup][:download_from_cloud] == "yes"
   rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
     
   gem_package "rightscale_tools" do
