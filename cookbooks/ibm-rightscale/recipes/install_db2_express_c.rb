@@ -119,7 +119,7 @@ else
     source "db2.rsp.erb"
 	notifies :run, "execute[extract-db2-media]", :immediately
 	notifies :run, "execute[install-db2]", :immediately
-	notifies :run, "script[setup-ibm-java]", :immediately
+	notifies :run, "bash[setup-ibm-java]", :immediately
   end
   
   file install_media_location do
