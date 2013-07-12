@@ -34,11 +34,10 @@ end
 
 log "Running Database Backup"
 
-cd = execute_as_user "restore-database" do
+execute_as_user "restore-database" do
   command "db2 restore DB #{node[:db2][:database][:name]} #{node[:db2][:database][:options]}"
   user node[:db2][:instance][:username]
-  action :nothing
+  action :run
 end
-rd.run_action(:run)
 
 rightscale_marker :end
