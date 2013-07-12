@@ -26,18 +26,15 @@ if node[:backup][:save_to_cloud] == "yes"
   users_home_dir = File.join("/home", node[:db2][:instance][:username])
   #backup_files = Dir.entries(users_home_dir).select { |file| file.include?(node[:db2][:database][:name]) }
   #newest = backup_files.max { |a,b| (File.mtime(File.join(dir,a)) <=> File.mtime(File.join(dir,b))) }
-  newest = execute "ls #{users_home_dir} | grep #{node[:db2][:database][:name]} | sort | tail -1"
+  newest = `ls #{users_home_dir} | grep #{node[:db2][:database][:name]} | sort | tail -1`
   
   log "users_home_dir: #{users_home_dir.inspect}"
   #log "backup_files: #{backup_files.inspect}"
   log "newest: #{newest.inspect}"
   
   @ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
-  
-  log "Backing up #{users_home_dir.inspect}"
-  log "Backing up #{newest.inspect}"
 
-  #@ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
+  @ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
 end
 
 rightscale_marker :end
