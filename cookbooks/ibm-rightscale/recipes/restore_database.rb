@@ -37,7 +37,7 @@ log "Running Database Backup"
 execute_as_user "restore-database" do
   command "db2 restore DB #{node[:db2][:database][:name]} #{node[:db2][:database][:options]}"
   user node[:db2][:instance][:username]
-  action :run
+  only_if { ::File.exists?(local_path) }
 end
 
 rightscale_marker :end
