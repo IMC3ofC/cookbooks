@@ -30,7 +30,7 @@ end
 
 to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => "http" })
 
-install_media_location = to_download.first["download"]["url"].split("/").last
+install_media_location = File.join("/tmp", to_download.first["download"]["url"].split("/").last)
 
 remote_file install_media_location do
   source to_download.first["download"]["url"]
