@@ -32,7 +32,8 @@
         "ibm-rightscale::stop_db2",
         "ibm-rightscale::start_db2_administration_server",
         "ibm-rightscale::stop_db2_administration_server",
-        "ibm-rightscale::create_database"
+        "ibm-rightscale::create_database",
+        "ibm-rightscale::backup_database"
       ],
       "choice": [
 
@@ -200,7 +201,8 @@
       "description": "The name of the DB2 Database.",
       "required": "required",
       "recipes": [
-        "ibm-rightscale::create_database"
+        "ibm-rightscale::create_database",
+        "ibm-rightscale::backup_database"
       ],
       "choice": [
 
@@ -213,7 +215,8 @@
       "description": "The options for the DB2 Database.",
       "required": "optional",
       "recipes": [
-        "ibm-rightscale::create_database"
+        "ibm-rightscale::create_database",
+        "ibm-rightscale::backup_database"
       ],
       "choice": [
 
@@ -248,6 +251,87 @@
       ],
       "calculated": false,
       "type": "string"
+    },
+    "backup/save_to_cloud": {
+      "display_name": "Save to Cloud",
+      "description": "Would you like to save the backup to the Cloud?",
+      "required": "recommended",
+      "choice": [
+        "yes",
+        "no"
+      ],
+      "default": "no",
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "backup/bucket": {
+      "display_name": "Backup Bucket",
+      "description": "What bucket would you like to use for the Backup?",
+      "required": "recommended",
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "backup/path": {
+      "display_name": "Backup Path",
+      "description": "What path would you like to use for the Backup?",
+      "required": "recommended",
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "backup/cloud/name": {
+      "display_name": "Cloud Name",
+      "description": "Which cloud do you want to backup to?",
+      "required": "recommended",
+      "choice": [
+        "s3",
+        "softlayer"
+      ],
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "backup/cloud/key": {
+      "display_name": "Cloud Key",
+      "description": "What is your cloud key?",
+      "required": "recommended",
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "backup/cloud/secret": {
+      "display_name": "Cloud Secret",
+      "description": "What is your cloud secret?",
+      "required": "recommended",
+      "recipes": [
+        "ibm-rightscale::backup_database"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
     }
   },
   "groupings": {
@@ -258,7 +342,8 @@
     "ibm-rightscale::stop_db2": "Stop DB2",
     "ibm-rightscale::start_db2_administration_server": "Start DB2 Administration Server",
     "ibm-rightscale::stop_db2_administration_server": "Stop DB2 Administration Server",
-    "ibm-rightscale::create_database": "Create DB2 Database"
+    "ibm-rightscale::create_database": "Create DB2 Database",
+    "ibm-rightscale::backup_database": "Backup DB2 Database"
   },
   "version": "0.1.0"
 }

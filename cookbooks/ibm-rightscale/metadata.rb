@@ -15,6 +15,8 @@ recipe "ibm-rightscale::stop_db2",                        "Stop DB2"
 recipe "ibm-rightscale::start_db2_administration_server", "Start DB2 Administration Server"
 recipe "ibm-rightscale::stop_db2_administration_server",  "Stop DB2 Administration Server"
 recipe "ibm-rightscale::create_database",                 "Create DB2 Database"
+recipe "ibm-rightscale::backup_database",                 "Backup DB2 Database"
+#recipe "ibm-rightscale::restore_database",                 "Restore DB2 Database"
 
 #
 # My Attributes
@@ -27,7 +29,7 @@ attribute "db2/instance/username",
    :description => "Username for the DB2 instance owner.",
    :required => "recommended",
    :default => "db2inst1",
-   :recipes => ["ibm-rightscale::install_db2_express_c", "ibm-rightscale::start_db2", "ibm-rightscale::stop_db2", "ibm-rightscale::start_db2_administration_server", "ibm-rightscale::stop_db2_administration_server", "ibm-rightscale::create_database"]
+   :recipes => ["ibm-rightscale::install_db2_express_c", "ibm-rightscale::start_db2", "ibm-rightscale::stop_db2", "ibm-rightscale::start_db2_administration_server", "ibm-rightscale::stop_db2_administration_server", "ibm-rightscale::create_database", "ibm-rightscale::backup_database"]
 
 attribute "db2/instance/password",
    :display_name => "DB2 Instance owner password",
@@ -120,13 +122,13 @@ attribute "db2/database/name",
    :display_name => "Database name",
    :description => "The name of the DB2 Database.",
    :required => "required",
-   :recipes => ["ibm-rightscale::create_database"]
+   :recipes => ["ibm-rightscale::create_database", "ibm-rightscale::backup_database"]
 
 attribute "db2/database/options",
    :display_name => "DB2 Database Options",
    :description => "The options for the DB2 Database.",
    :required => "optional",
-   :recipes => ["ibm-rightscale::create_database"]
+   :recipes => ["ibm-rightscale::create_database", "ibm-rightscale::backup_database"]
 
    
 ## INPUTS FOR DOWNLOAD API
@@ -144,3 +146,45 @@ attribute "api/url",
    :required => "optional",
    :default => "https://my.imdemocloud.com:443/api",
    :recipes => ["ibm-rightscale::install_db2_express_c"]
+
+
+### INPUTS FOR BACKUP
+
+attribute "backup/save_to_cloud",
+   :display_name => "Save to Cloud",
+   :description => "Would you like to save the backup to the Cloud?",
+   :required => "recommended",
+   :choice => ["yes", "no"],
+   :default => "no",
+   :recipes => ["ibm-rightscale::backup_database"]
+
+attribute "backup/bucket",
+   :display_name => "Backup Bucket",
+   :description => "What bucket would you like to use for the Backup?",
+   :required => "recommended",
+   :recipes => ["ibm-rightscale::backup_database"]
+
+attribute "backup/path",
+   :display_name => "Backup Path",
+   :description => "What path would you like to use for the Backup?",
+   :required => "recommended",
+   :recipes => ["ibm-rightscale::backup_database"]
+   
+attribute "backup/cloud/name",
+   :display_name => "Cloud Name",
+   :description => "Which cloud do you want to backup to?",
+   :required => "recommended",
+   :choice => ["s3", "softlayer"],
+   :recipes => ["ibm-rightscale::backup_database"]
+
+attribute "backup/cloud/key",
+   :display_name => "Cloud Key",
+   :description => "What is your cloud key?",
+   :required => "recommended",
+   :recipes => ["ibm-rightscale::backup_database"]
+   
+attribute "backup/cloud/secret",
+   :display_name => "Cloud Secret",
+   :description => "What is your cloud secret?",
+   :required => "recommended",
+   :recipes => ["ibm-rightscale::backup_database"]

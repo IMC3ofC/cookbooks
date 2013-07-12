@@ -8,9 +8,4 @@ execute_as_user "db2stop" do
   action :run
 end
 
-#execute "db2stop" do
-#  command "su - #{node[:db2][:instance][:username]} -c \"db2stop #{node[:db2][:force] == 'yes' ? 'force' : ''}\""
-#  action :run
-#end
-
 rightscale_marker :end
