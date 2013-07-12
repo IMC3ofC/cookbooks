@@ -32,7 +32,9 @@ if node[:backup][:save_to_cloud] == "yes"
   log "Secret: #{node[:backup][:cloud][:secret]}"
   #@ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
   
-  log "Backing up #{File.join(users_home_dir, newest)}"
+  log "Backing up #{users_home_dir.inspect}"
+  log "Backing up #{newest.inspect}"
+
   #@ros.put_object_from_file node[:backup][:bucket], File.join(node[:backup][:path], newest), File.join(users_home_dir, newest)
 end
 

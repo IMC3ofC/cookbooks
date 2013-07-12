@@ -183,14 +183,16 @@ attribute "backup/cloud/name",
 
 attribute "backup/cloud/key",
    :display_name => "Cloud Key",
-   :description => "What is your cloud key?",
+   :description => "For Amazon S3, use your Amazon key ID" +
+                   " (e.g., cred:AWS_ACCESS_KEY_ID).",
    :required => "recommended",
-   :default => "CRED:AWS_ACCESS_KEY_ID",
+   :default => "",
    :recipes => ["ibm-rightscale::backup_database"]
    
 attribute "backup/cloud/secret",
    :display_name => "Cloud Secret",
-   :description => "What is your cloud secret?",
+   :description => "For Amazon S3, use your Amazon secret key" +
+                   " (e.g., cred:AWS_SECRET_ACCESS_KEY).",
    :required => "recommended",
-   :default => "CRED:AWS_SECRET_ACCESS_KEY",
+   :default => "",
    :recipes => ["ibm-rightscale::backup_database"]
