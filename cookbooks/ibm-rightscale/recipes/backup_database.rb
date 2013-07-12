@@ -27,10 +27,11 @@ if node[:backup][:save_to_cloud] == "yes"
   backup_files = Dir.entries(users_home_dir).select { |file| file.include?(node[:db2][:database][:name]) }
   newest = backup_files.max { |a,b| (File.mtime(File.join(dir,a)) <=> File.mtime(File.join(dir,b))) }
   
-  log "Name: #{node[:backup][:cloud][:name]}"
-  log "Key: #{node[:backup][:cloud][:key]}"
-  log "Secret: #{node[:backup][:cloud][:secret]}"
-  #@ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
+  log "users_home_dir: #{users_home_dir.inspect}"
+  log "backup_files: #{backup_files.inspect}"
+  log "newest: #{newest.inspect}"
+  
+  @ros = RightScale::Tools::ROS.factory(node[:backup][:cloud][:name], node[:backup][:cloud][:key], node[:backup][:cloud][:secret])
   
   log "Backing up #{users_home_dir.inspect}"
   log "Backing up #{newest.inspect}"
