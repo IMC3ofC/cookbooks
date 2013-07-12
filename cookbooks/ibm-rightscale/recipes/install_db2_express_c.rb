@@ -29,22 +29,27 @@ IMCloudClient.configure do |config|
   config.api_url = node[:api][:url]
 end
 
-to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => storage_cloud, :geography => geo })
-files       = to_download.first["download"]["url"][5..-1].split("/",2)
+to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => "http" })
+#files       = to_download.first["download"]["url"][5..-1].split("/",2)
 
-@ros = RightScale::Tools::ROS.factory("s3", to_download.first["download"]["key"], to_download.first["download"]["secret"])
+#@ros = RightScale::Tools::ROS.factory("s3", to_download.first["download"]["key"], to_download.first["download"]["secret"])
 
-install_media_location = File.join("/tmp", files.last.split("/").last)
+#install_media_location = File.join("/tmp", files.last.split("/").last)
+install_media_location = to_download.split("/").last
 
-log "Need to download: #{files.first} / #{files.last}"
-log "To: #{install_media_location}"
+#log "Need to download: #{files.first} / #{files.last}"
+#log "To: #{install_media_location}"
+#
+#begin
+#  @ros.get_object_to_file(files.first, files.last, install_media_location)
+#rescue Exception => msg  
+#  log msg
+#  log msg.backtrace
+#  log msg.class
+#end
 
-begin
-  @ros.get_object_to_file(files.first, files.last, install_media_location)
-rescue Exception => msg  
-  log msg
-  log msg.backtrace
-  log msg.class
+remote_file install_media_location do
+  source to_download
 end
 
 log "Installing DB2 Express-C 10.5"
