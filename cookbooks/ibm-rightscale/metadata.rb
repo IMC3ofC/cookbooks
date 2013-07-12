@@ -156,7 +156,7 @@ attribute "backup/save_to_cloud",
    :description => "Would you like to save the backup to the Cloud?",
    :required => "recommended",
    :choice => ["yes", "no"],
-   :default => "no",
+   :default => "yes",
    :recipes => ["ibm-rightscale::backup_database"]
 
 attribute "backup/download_from_cloud",
@@ -164,7 +164,7 @@ attribute "backup/download_from_cloud",
    :description => "Would you like to download the backup from the Cloud?",
    :required => "recommended",
    :choice => ["yes", "no"],
-   :default => "no",
+   :default => "yes",
    :recipes => ["ibm-rightscale::restore_database"]
    
 attribute "backup/bucket",

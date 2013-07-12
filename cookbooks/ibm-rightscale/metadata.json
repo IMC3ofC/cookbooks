@@ -263,7 +263,7 @@
         "yes",
         "no"
       ],
-      "default": "no",
+      "default": "yes",
       "recipes": [
         "ibm-rightscale::backup_database"
       ],
@@ -278,7 +278,7 @@
         "yes",
         "no"
       ],
-      "default": "no",
+      "default": "yes",
       "recipes": [
         "ibm-rightscale::restore_database"
       ],
