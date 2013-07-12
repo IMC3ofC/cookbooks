@@ -51,12 +51,10 @@ log "Installing DB2 Express-C 10.5"
 
 case node[:platform]
 when "debian", "ubuntu"
-  package "libgphoto2-2:i386"
-  package "libgd2-xpm:i386"
-  package "libgphoto2-2:i386"
-  package "ia32-libs-multiarch"
-  package "ia32-libs"
-  %w{unzip libstdc++6 lib32stdc++6 libaio1 ia32-libs libpam0g:i386}.each do |pkg|
+  execute "install-required-packages" do
+    command "apt-get install -y libgd2-xpm:i386 libgphoto2-2:i386 ia32-libs-multiarch ia32-libs"
+  end
+  %w{libstdc++6 lib32stdc++6 libaio1 libpam0g:i386}.each do |pkg|
     package pkg
   end
   
