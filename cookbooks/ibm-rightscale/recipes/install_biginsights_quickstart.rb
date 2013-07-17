@@ -56,73 +56,43 @@ else
 end
 
 
-if File.exists?("/opt/ibm/db2.lock")
-  log "DB2 ALREADY INSTALLED"
-
-  execute "install-db2" do
-    command "echo '0 #{`hostname -f`.strip} 0' > /home/#{node[:db2][:instance][:username]}/sqllib/db2nodes.cfg"
-    user "root"
-	action :run
-  end
-  
-else
-  directory node[:db2][:data_path] do
+%w{some folders}.each do |dir|
+  directory File.join("/tmp", dir) do
     mode 0755
     action :create
   end
-	
-  %w{backups log}.each do |dir|
-    directory File.join(node[:db2][:data_path], dir) do
-      mode 0755
-      action :create
-    end
-  end
-
-  execute "extract-db2-media" do
-    command "tar --index-file /tmp/db2exc.tar.log -xvvf /tmp/v10.5_linuxx64_expc.tar.gz -C /mnt/"
-	action :nothing
-  end
-
-  execute "install-db2" do
-    command "/mnt/expc/db2setup -r /tmp/db2.rsp"
-	action :nothing
-  end
-  
-  bash "setup-ibm-java" do
-    code <<-EOH
-	update-alternatives --install "/usr/bin/java" "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java" 0
-	update-alternatives --set "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java"
-	EOH
-	action :nothing
-  end
-
-  log "  Configure DB2 Install Response file - /tmp/db2.rsp"
-  template "/tmp/db2.rsp" do
-    source "db2.rsp.erb"
-	notifies :run, "execute[extract-db2-media]", :immediately
-	notifies :run, "execute[install-db2]", :immediately
-	notifies :run, "bash[setup-ibm-java]", :immediately
-  end
-  
-  file install_media_location do
-    action :delete
-  end
-  
-  directory File.join(node[:db2][:data_path], "log") do
-    mode 2777
-  end
-
-  directory node[:db2][:data_path] do
-    owner node[:db2][:instance][:username]
-	group node[:db2][:instance][:group]
-	recursive true
-  end
-  
-  cookbook_file File.join("/home", node[:db2][:instance][:username], ".bashrc") do
-    owner node[:db2][:instance][:username]
-    group node[:db2][:instance][:group]
-  end
 end
 
+execute "extract-biginsights-media" do
+  command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
+  action :nothing
+end
+
+execute "install-biginsights" do
+  command "/mnt/expc/db2setup -r /tmp/db2.rsp"
+  action :nothing
+end
+  
+bash "setup-ibm-java" do
+  code <<-EOH
+  update-alternatives --install "/usr/bin/java" "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java" 0
+  update-alternatives --set "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java"
+  EOH
+  action :nothing
+end
+
+log "  Configure BigInsights Install Response file - /tmp/install.xml"
+template "/tmp/install.xml" do
+  source "install.xml.erb"
+  notifies :run, "execute[extract-biginsights-media]", :immediately
+  notifies :run, "execute[install-biginsights]", :immediately
+  #notifies :run, "bash[setup-ibm-java]", :immediately
+end
+  
+#file install_media_location do
+#  action :delete
+#end
+  
+end
 
 rightscale_marker :end
