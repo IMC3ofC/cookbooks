@@ -233,7 +233,8 @@
       "required": "optional",
       "default": "643a4018ad2c16314ad4ddf6aecfbd4bd34be3bd95ccfe146d1b9be214e406aa",
       "recipes": [
-        "ibm-rightscale::install_db2_express_c"
+        "ibm-rightscale::install_db2_express_c",
+        "ibm-rightscale::install_biginsights_quickstart"
       ],
       "choice": [
 
@@ -247,7 +248,8 @@
       "required": "optional",
       "default": "https://my.imdemocloud.com:443/api",
       "recipes": [
-        "ibm-rightscale::install_db2_express_c"
+        "ibm-rightscale::install_db2_express_c",
+        "ibm-rightscale::install_biginsights_quickstart"
       ],
       "choice": [
 
