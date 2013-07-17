@@ -18,6 +18,9 @@ recipe "ibm-rightscale::create_database",                 "Create DB2 Database"
 recipe "ibm-rightscale::backup_database",                 "Backup DB2 Database"
 recipe "ibm-rightscale::restore_database",                "Restore DB2 Database"
 
+recipe "ibm-rightscale::install_biginsights_quickstart",  "Install BigInsights Quickstart v?"
+
+
 #
 # My Attributes
 #

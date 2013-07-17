@@ -370,7 +370,8 @@
     "ibm-rightscale::stop_db2_administration_server": "Stop DB2 Administration Server",
     "ibm-rightscale::create_database": "Create DB2 Database",
     "ibm-rightscale::backup_database": "Backup DB2 Database",
-    "ibm-rightscale::restore_database": "Restore DB2 Database"
+    "ibm-rightscale::restore_database": "Restore DB2 Database",
+    "ibm-rightscale::install_biginsights_quickstart": "Install BigInsights Quickstart v?"
   },
   "version": "0.1.0"
 }
