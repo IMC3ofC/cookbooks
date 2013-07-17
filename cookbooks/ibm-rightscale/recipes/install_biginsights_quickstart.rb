@@ -92,7 +92,5 @@ end
 #file install_media_location do
 #  action :delete
 #end
-  
-end
 
 rightscale_marker :end
