@@ -32,6 +32,61 @@ log "Installing BigInsights Quickstart 2.1"
 #########
 #TODO: CHANGE CODE BELOW - Testing ryan
 #########
+
+### Samples ####
+
+# * bash resource... alias/shortcut of execute
+# bash "Setup the hosts file" do
+#   user "root"
+#   code <<-EOH
+#   sudo sh -c "echo \\"127.0.0.1 api.#{domain}\\" >> /etc/hosts"
+#   sudo sh -c "echo \\"127.0.0.1 uaa.#{domain}\\" >> /etc/hosts"
+#   sudo sh -c "echo \\"127.0.0.1 service-broker.#{domain}\\" >> /etc/hosts"
+#   EOH
+# end
+
+# * service resource (if already installed)... start is the default
+# service "nats_server" do
+#   action :start
+# end
+
+# * service resource (if already installed)... start is the default
+# service "nats_server" do
+#   action :start
+# end
+
+# * execute a command
+# execute "restart postgresql 8.4" do
+#   user "root"
+#   command "/etc/init.d/postgresql-8.4 restart"
+# end
+
+# * start a daemon
+# execute "Restart admin_ui" do
+#   user "root"
+#   command "nohup /etc/init.d/admin_ui restart >/dev/null 2>&1 &"
+# end
+
+# * group resource (http://docs.opscode.com/resource_group.html)
+# group "name" do
+  #   some_attribute "value" # see attributes section below
+  #   action :action # see actions section below
+  # end
+
+# * user resource (http://docs.opscode.com/resource_user.html)
+# user "random" do
+#   comment "Random User"
+#   uid 1234
+#   gid "users"
+#   home "/home/random"
+#  shell "/bin/bash"
+#   password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
+# end
+
+### ###
+
+log "  Install prerequisites."
+
 #not sure what is needed for ubuntu
 case node[:platform]
 when "debian", "ubuntu"
@@ -55,18 +110,23 @@ else
   #end
 end
 
+log "  Create users."
 
-%w{some folders}.each do |dir|
-  directory File.join("/tmp", dir) do
-    mode 0755
-    action :create
-  end
-end
+
+#%w{some folders}.each do |dir|
+#  directory File.join("/tmp", dir) do
+#    mode 0755
+#    action :create
+#  end
+#end
 
 execute "extract-biginsights-media" do
   command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
   action :nothing
 end
+
+
+
 
 execute "install-biginsights" do
   command "/mnt/expc/db2setup -r /tmp/db2.rsp"
@@ -93,6 +153,5 @@ end
 #  action :delete
 #end
 
-# Test push
 
 rightscale_marker :end
