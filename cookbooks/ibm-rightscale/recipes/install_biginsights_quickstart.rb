@@ -32,7 +32,7 @@ log "Installing BigInsights Quickstart 2.1"
 #########
 #TODO: CHANGE CODE BELOW - Testing ryan
 #########
-
+#not sure what is needed for ubuntu
 case node[:platform]
 when "debian", "ubuntu"
   execute "install-required-packages" do
@@ -46,13 +46,13 @@ when "debian", "ubuntu"
     to "/lib/libpam.so.0"
   end
 else
-  %w{compat-libstdc++-33 libstdc++-devel dapl dapl-devel libibverbs-devel}.each do |pkg|
+  %w{expect nc}.each do |pkg|
     package pkg
   end
-  yum_package "pam.i686" do
-    version "1.1.1-13.el6"
-	action :install
-  end
+  #yum_package "pam.i686" do
+  #  version "1.1.1-13.el6"
+	#action :install
+  #end
 end
 
 
