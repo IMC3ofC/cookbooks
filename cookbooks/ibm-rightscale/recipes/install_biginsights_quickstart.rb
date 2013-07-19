@@ -50,11 +50,6 @@ log "Installing BigInsights Quickstart 2.1"
 #   action :start
 # end
 
-# * service resource (if already installed)... start is the default
-# service "nats_server" do
-#   action :start
-# end
-
 # * execute a command
 # execute "restart postgresql 8.4" do
 #   user "root"
@@ -81,6 +76,14 @@ log "Installing BigInsights Quickstart 2.1"
 #   home "/home/random"
 #  shell "/bin/bash"
 #   password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
+# end
+
+# * directory resource
+# %w{some folders}.each do |dir|
+#   directory File.join("/tmp", dir) do
+#     mode 0755
+#     action :create
+#   end
 # end
 
 ### ###
@@ -110,15 +113,37 @@ else
   #end
 end
 
-log "  Create users."
+bash "set-ulimits" do
+  code <<-EOH
+  ulimit -n 16384
+  echo "root hard nofile 16384" >> /etc/security/limits.conf
+  echo "root soft nofile 16384" >> /etc/security/limits.conf
+  EOH
+end
 
+bash "create-directories" do
+  code <<-EOH
+  mkdir /mnt/hadoop
+  ln -s /mnt/hadoop /hadoop
+  
+  if [ -d "/var/ibm" ]; then
+    mv /var/ibm /mnt/ibm
+  else
+    mkdir /mnt/ibm
+  fi
+  
+  ln -s /mnt/ibm /var/ibm
+  EOH
+end
 
-#%w{some folders}.each do |dir|
-#  directory File.join("/tmp", dir) do
-#    mode 0755
-#    action :create
-#  end
-#end
+bash "execute-biadmin" do
+    
+end
+
+bash "execute-biadmin" do
+      
+end
+
 
 execute "extract-biginsights-media" do
   command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
