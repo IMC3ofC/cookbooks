@@ -30,7 +30,7 @@ end
 log "Installing BigInsights Quickstart 2.1"
 
 #########
-#TODO: CHANGE CODE BELOW
+#TODO: CHANGE CODE BELOW - Testing ryan
 #########
 
 case node[:platform]
