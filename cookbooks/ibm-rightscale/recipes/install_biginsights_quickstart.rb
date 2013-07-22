@@ -137,6 +137,13 @@ bash "create-directories" do
   EOH
 end
 
+execute_as_user "echo-password" do
+  command "echo #{node[:biginsights][:biadmin][:password]}"
+  user "root"
+  action :run
+end
+
+
 bash "execute-biadmin" do
     
 end
