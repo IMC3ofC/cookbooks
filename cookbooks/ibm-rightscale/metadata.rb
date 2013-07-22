@@ -25,6 +25,17 @@ recipe "ibm-rightscale::install_biginsights_quickstart",  "Install BigInsights Q
 # My Attributes
 #
 
+
+### INPUTS FOR BIG INSIGHTS
+    
+attribute "biginsights/biadmin/password",
+   :display_name => "Big Insights password",
+   :description => "Password for the Big Insights.",
+   :required => "recommended",
+   :default => "passw0rd",
+   :recipes => ["ibm-rightscale::install_biginsights_quickstart"]     
+     
+
 ### INPUTS FOR INSTANCE OWNER
 
 attribute "db2/instance/username",

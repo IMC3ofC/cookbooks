@@ -115,6 +115,7 @@ end
 
 bash "set-ulimits" do
   code <<-EOH
+  # TODO make this survive the shell (at init time?)
   ulimit -n 16384
   echo "root hard nofile 16384" >> /etc/security/limits.conf
   echo "root soft nofile 16384" >> /etc/security/limits.conf
