@@ -30,7 +30,7 @@ recipe "ibm-rightscale::install_biginsights_quickstart",  "Install BigInsights Q
     
 attribute "biginsights/biadmin/password",
    :display_name => "Big Insights password",
-   :description => "Password for the Big Insights.",
+   :description => "Password for the Big Insights admin.",
    :required => "recommended",
    :default => "passw0rd",
    :recipes => ["ibm-rightscale::install_biginsights_quickstart"]     

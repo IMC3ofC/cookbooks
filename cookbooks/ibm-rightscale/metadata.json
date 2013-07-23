@@ -21,6 +21,20 @@
   "replacing": {
   },
   "attributes": {
+    "biginsights/biadmin/password": {
+      "display_name": "Big Insights password",
+      "description": "Password for the Big Insights admin.",
+      "required": "recommended",
+      "default": "passw0rd",
+      "recipes": [
+        "ibm-rightscale::install_biginsights_quickstart"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
     "db2/instance/username": {
       "display_name": "DB2 Instance owner username",
       "description": "Username for the DB2 instance owner.",
