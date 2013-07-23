@@ -148,14 +148,6 @@ cookbook_file "execute-biadmin" do
   path "/tmp/setup_biadmin.sh"
   mode 00644
 end
-
-
-bash "create-directories" do
-  code <<-EOH
-  mkdir /mnt/hadoop && ln -s /mnt/hadoop /hadoop
-  mkdir /mnt/ibm && ln -s /mnt/ibm /var/ibm
-  EOH
-end
   
 
 
