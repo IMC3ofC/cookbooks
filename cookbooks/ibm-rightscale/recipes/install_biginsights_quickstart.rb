@@ -114,9 +114,9 @@ else
   #end
 end
 
+# TODO make this survive the shell (at init time?)
 bash "set-ulimits" do
   code <<-EOH
-  # TODO make this survive the shell (at init time?)
   ulimit -n 16384
   echo "root hard nofile 16384" >> /etc/security/limits.conf
   echo "root soft nofile 16384" >> /etc/security/limits.conf
@@ -144,14 +144,20 @@ execute_as_user "echo-password" do
   action :run
 end
 
-
-bash "execute-biadmin" do
-    
+cookbook_file "execute-biadmin" do
+  path "/tmp/setup_biadmin.sh"
+  mode 00644
 end
 
-bash "execute-biadmin" do
-      
+
+bash "create-directories" do
+  code <<-EOH
+  mkdir /mnt/hadoop && ln -s /mnt/hadoop /hadoop
+  mkdir /mnt/ibm && ln -s /mnt/ibm /var/ibm
+  EOH
 end
+  
+
 
 
 execute "extract-biginsights-media" do
