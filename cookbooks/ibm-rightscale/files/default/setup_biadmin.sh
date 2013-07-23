@@ -1,6 +1,8 @@
 # Set the systems authentication to SHA-512
 authconfig --passalgo=sha512 --update
 
+
+
 # Update sudoers file
 sed -i 's/^Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers
 
