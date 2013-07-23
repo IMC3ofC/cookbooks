@@ -33,6 +33,7 @@ log "Installing BigInsights Quickstart 2.1"
 #TODO: CHANGE CODE BELOW - Testing ryan
 #########
 
+
 ### Samples ####
 
 # * bash resource... alias/shortcut of execute
