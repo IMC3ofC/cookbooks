@@ -25,6 +25,7 @@ install_media_location = File.join("/tmp", to_download.first["download"]["url"].
 
 remote_file install_media_location do
   source to_download.first["download"]["url"]
+  not_if { ::File.exists?(install_media_location) }
 end
 
 log "Installing BigInsights Quickstart 2.1"
@@ -145,8 +146,10 @@ execute_as_user "echo-password" do
 end
 
 cookbook_file "/tmp/setup_biadmin.sh" do
-  mode 00644
+  mode 00777
 end
+
+execute "/tmp/setup_biadmin.sh"
   
 
 
