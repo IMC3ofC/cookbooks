@@ -25,6 +25,7 @@ install_media_location = File.join("/tmp", to_download.first["download"]["url"].
 
 remote_file install_media_location do
   source to_download.first["download"]["url"]
+  not_if { ::File.exists?(install_media_location) }
 end
 
 log "Installing BigInsights Quickstart 2.1"
