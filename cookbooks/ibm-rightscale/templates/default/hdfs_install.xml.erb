@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<% master_hostname = ENV['UNIQUE_HOSTNAME'] + "-internal.imdemocloud.com" %>
 <cluster-configuration>
     <xml-version>2.0</xml-version>
     <vendor>ibm</vendor>
@@ -9,7 +8,7 @@
     <general>
         <biginsights-install-directory>opt/ibm/biginsights</biginsights-install-directory>
         <biginsights-data-log-directory>var/ibm/biginsights</biginsights-data-log-directory>
-        <directory-prefix><%= ENV['BI_DIRECTORY_PREFIX'] %></directory-prefix>
+        <directory-prefix><%= bi_directory_prefix %></directory-prefix>
         <overwrite>true</overwrite>
         <file-system>hdfs</file-system>
         <shared-directory/>
@@ -73,7 +72,7 @@
             <cache-directory>hadoop/mapred/local</cache-directory>
             <log-directory>var/ibm/biginsights/hadoop/logs</log-directory>
             <mapred-system-directory>/hadoop/mapred/system</mapred-system-directory>
-            <apache-mapred><%= ENV['HADOOP_DISTRIBUTION'] == "Apache" ? "true" : "false" %></apache-mapred>
+            <apache-mapred><%= hadoop_distribution %></apache-mapred>
         </general>
         <hdfs>
             <configure>true</configure>
@@ -172,7 +171,7 @@
             <gpfs-admin-node/>
             <gpfs-rawdisk-list/>
         </node>
-<% ENV['DATA_NODE_UNIQUE_HOSTNAMES'].split(",").each do |unique_hostname| %>
+<% data_node_unique_hostnames.split(",").each do |unique_hostname| %>
         <node>
             <name-or-ip><%= unique_hostname %>-internal.imdemocloud.com</name-or-ip>
             <password>{xor}</password>

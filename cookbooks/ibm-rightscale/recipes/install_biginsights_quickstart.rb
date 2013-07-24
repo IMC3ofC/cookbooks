@@ -168,6 +168,12 @@ end
 log "  Configure BigInsights Install Response file - /tmp/hdfs_install.xml"
 template "/tmp/hdfs_install.xml" do
   source "hdfs_install.xml.erb"
+  variables(
+    :master_hostname => 'localhost',
+    :bi_directory_prefix => '/',
+    :hadoop_distribution => 'Apache',
+    :data_node_unique_hostnames => ['localhost']
+  )
   notifies :run, "execute[extract-biginsights-media]", :immediately
   notifies :run, "bash[install-biginsights]", :immediately
   notifies :run, "bash[setup-ibm-java]", :immediately
