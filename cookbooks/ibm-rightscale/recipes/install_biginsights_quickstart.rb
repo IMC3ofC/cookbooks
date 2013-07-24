@@ -165,11 +165,11 @@ bash "setup-ibm-java" do
   action :nothing
 end
 
-log "  Configure BigInsights Install Response file - /tmp/install.xml"
+log "  Configure BigInsights Install Response file - /tmp/hdfs_install.xml"
 template "/tmp/hdfs_install.xml" do
   source "hdfs_install.xml.erb"
   notifies :run, "execute[extract-biginsights-media]", :immediately
-  notifies :run, "execute[install-biginsights]", :immediately
+  notifies :run, "bash[install-biginsights]", :immediately
   notifies :run, "bash[setup-ibm-java]", :immediately
 end
 
