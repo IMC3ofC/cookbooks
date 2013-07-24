@@ -148,6 +148,8 @@ end
 cookbook_file "/tmp/setup_biadmin.sh" do
   mode 00777
 end
+
+execute "/tmp/setup_biadmin.sh"
   
 
 
