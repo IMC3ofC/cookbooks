@@ -144,8 +144,7 @@ execute_as_user "echo-password" do
   action :run
 end
 
-cookbook_file "execute-biadmin" do
-  path "/tmp/setup_biadmin.sh"
+cookbook_file "/tmp/setup_biadmin.sh" do
   mode 00644
 end
   
