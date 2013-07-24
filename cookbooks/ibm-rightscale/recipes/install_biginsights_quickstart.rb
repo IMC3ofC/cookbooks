@@ -116,13 +116,7 @@ else
 end
 
 # TODO make this survive the shell (at init time?)
-bash "set-ulimits" do
-  code <<-EOH
-  ulimit -n 16384
-  echo "root hard nofile 16384" >> /etc/security/limits.conf
-  echo "root soft nofile 16384" >> /etc/security/limits.conf
-  EOH
-end
+`
 
 bash "create-directories" do
   code <<-EOH
@@ -150,23 +144,47 @@ cookbook_file "/tmp/setup_biadmin.sh" do
 end
 
 execute "/tmp/setup_biadmin.sh"
+
+bash "install-biginsights" do
+  code <<-EOH
+  bidir=/mnt/biginsights-quickstart-linux64_*/
+  bidir=`echo $bidir| sed s/.$//`
+  
+  response_file_erb="hdfs_install.xml.erb"
+  
+  $bidir/silent-install/silent-install.sh /tmp/install.xml
+  
+  sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
+  
+  echo "export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin" >> /home/biadmin/.bashrc    
+  
+  EOH
+end
   
 
 
+log "  Configure BigInsights Install Response file - /tmp/install.xml"
+template "/tmp/hdfs_install.xml" do
+  source "hdfs_install.xml.erb
+  notifies :run, "execute[extract-biginsights-media]", :immediately
+  notifies :run, "execute[install-biginsights]", :immediately
+  notifies :run, "bash[setup-ibm-java]", :immediately
+end
 
 execute "extract-biginsights-media" do
   command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
   action :nothing
 end
-
-
-
-
-execute "install-biginsights" do
-  command "/mnt/expc/db2setup -r /tmp/db2.rsp"
+  
+bash "install-biginsights" do
+  code <<-EOH
+  /mnt/biginsights-quickstart-linux64_*/silent-install/silent-install.sh /tmp/install.xml
+  sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
+  echo "export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin" >> /home/biadmin/.bashrc 
+  EOH
   action :nothing
 end
-  
+
 bash "setup-ibm-java" do
   code <<-EOH
   update-alternatives --install "/usr/bin/java" "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java" 0
@@ -175,12 +193,23 @@ bash "setup-ibm-java" do
   action :nothing
 end
 
-log "  Configure BigInsights Install Response file - /tmp/install.xml"
-template "/tmp/install.xml" do
-  source "install.xml.erb"
-  notifies :run, "execute[extract-biginsights-media]", :immediately
-  notifies :run, "execute[install-biginsights]", :immediately
-  #notifies :run, "bash[setup-ibm-java]", :immediately
+
+bash "copy-jaql-excercises" do
+  code <<-EOH
+  echo "Copy the Jaql Exercises file"
+  EOH
+end
+
+bash "setup-sample-data" do
+  code <<-EOH
+  echo "Setup Sample Data"
+  EOH
+end
+  
+bash "sync-hadoop-config" do
+  code <<-EOH
+  su - biadmin -c "echo 'y' | syncconf.sh hadoop force"
+  EOH
 end
   
 #file install_media_location do
