@@ -169,6 +169,7 @@ log "  Configure BigInsights Install Response file - /tmp/hdfs_install.xml"
 template "/tmp/hdfs_install.xml" do
   source "hdfs_install.xml.erb"
   variables(
+    :biadmin_password => node[:biginsights][:biadmin][:password],
     :master_hostname => 'localhost',
     :bi_directory_prefix => '/',
     :hadoop_distribution => 'Apache',
