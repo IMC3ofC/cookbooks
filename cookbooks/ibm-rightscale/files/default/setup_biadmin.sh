@@ -1,3 +1,7 @@
+#!/bin/sh
+# Set the systems authentication to SHA-512
+echo "using $1"
+
 # Set the systems authentication to SHA-512
 authconfig --passalgo=sha512 --update
 
@@ -16,10 +20,11 @@ sed -i 's/^Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers
 # Create and configure biadmin user
 
 /usr/sbin/useradd -u 1001 -G biuser,bisysadmin,bidataadmin,biappadmin -g biadmin biadmin
-echo "$BIADMIN_PASSWORD" | passwd --stdin biadmin
+echo $1 | passwd --stdin biadmin
 
 [[ -e /home/biadmin/.ssh/ ]] && mv /home/biadmin/.ssh/ /home/biadmin/.ssh_old
 cp -R /root/.ssh/ /home/biadmin/
+chmod 600 /root/.ssh/*
 chown -R biadmin:biadmin /home/biadmin/.ssh/
 ls -la /home | grep biadmin
 ls -la /home/biadmin | grep .ssh

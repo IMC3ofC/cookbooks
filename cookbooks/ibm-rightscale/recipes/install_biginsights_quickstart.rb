@@ -143,7 +143,7 @@ cookbook_file "/tmp/setup_biadmin.sh" do
   mode 00777
 end
 
-execute "/tmp/setup_biadmin.sh"
+execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
 
 bash "install-biginsights" do
   code <<-EOH
