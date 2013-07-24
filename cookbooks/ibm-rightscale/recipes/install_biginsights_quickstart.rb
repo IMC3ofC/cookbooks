@@ -143,15 +143,6 @@ end
 
 execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
 
-
-log "  Configure BigInsights Install Response file - /tmp/install.xml"
-template "/tmp/hdfs_install.xml" do
-  source "hdfs_install.xml.erb"
-  notifies :run, "execute[extract-biginsights-media]", :immediately
-  notifies :run, "execute[install-biginsights]", :immediately
-  notifies :run, "bash[setup-ibm-java]", :immediately
-end
-
 execute "extract-biginsights-media" do
   command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
   action :nothing
@@ -172,6 +163,14 @@ bash "setup-ibm-java" do
   update-alternatives --set "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java"
   EOH
   action :nothing
+end
+
+log "  Configure BigInsights Install Response file - /tmp/install.xml"
+template "/tmp/hdfs_install.xml" do
+  source "hdfs_install.xml.erb"
+  notifies :run, "execute[extract-biginsights-media]", :immediately
+  notifies :run, "execute[install-biginsights]", :immediately
+  notifies :run, "bash[setup-ibm-java]", :immediately
 end
 
 
