@@ -145,22 +145,6 @@ end
 
 execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
 
-bash "install-biginsights" do
-  code <<-EOH
-  bidir=/mnt/biginsights-quickstart-linux64_*/
-  
-  response_file_erb="hdfs_install.xml.erb"
-  
-  $bidir/silent-install/silent-install.sh /tmp/install.xml
-  
-  sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
-  
-  echo "export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin" >> /home/biadmin/.bashrc    
-  
-  EOH
-end
-  
-
 
 log "  Configure BigInsights Install Response file - /tmp/install.xml"
 template "/tmp/hdfs_install.xml" do
