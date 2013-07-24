@@ -148,7 +148,6 @@ execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
 bash "install-biginsights" do
   code <<-EOH
   bidir=/mnt/biginsights-quickstart-linux64_*/
-  bidir=`echo $bidir| sed s/.$//`
   
   response_file_erb="hdfs_install.xml.erb"
   
