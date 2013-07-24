@@ -116,8 +116,6 @@ else
 end
 
 # TODO make this survive the shell (at init time?)
-`
-
 bash "create-directories" do
   code <<-EOH
   mkdir /mnt/hadoop
@@ -148,7 +146,7 @@ execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
 
 log "  Configure BigInsights Install Response file - /tmp/install.xml"
 template "/tmp/hdfs_install.xml" do
-  source "hdfs_install.xml.erb
+  source "hdfs_install.xml.erb"
   notifies :run, "execute[extract-biginsights-media]", :immediately
   notifies :run, "execute[install-biginsights]", :immediately
   notifies :run, "bash[setup-ibm-java]", :immediately
@@ -163,7 +161,7 @@ bash "install-biginsights" do
   code <<-EOH
   /mnt/biginsights-quickstart-linux64_*/silent-install/silent-install.sh /tmp/install.xml
   sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
-  echo "export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin" >> /home/biadmin/.bashrc 
+  echo 'export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin' >> /home/biadmin/.bashrc 
   EOH
   action :nothing
 end
