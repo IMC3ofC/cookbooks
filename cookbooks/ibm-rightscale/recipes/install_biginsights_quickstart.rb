@@ -146,7 +146,7 @@ execute_as_user "echo-password" do
 end
 
 cookbook_file "/tmp/setup_biadmin.sh" do
-  mode 777
+  mode 00777
 end
   
 
