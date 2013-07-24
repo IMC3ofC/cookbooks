@@ -8,7 +8,7 @@
     <general>
         <biginsights-install-directory>opt/ibm/biginsights</biginsights-install-directory>
         <biginsights-data-log-directory>var/ibm/biginsights</biginsights-data-log-directory>
-        <directory-prefix><%= bi_directory_prefix %></directory-prefix>
+        <directory-prefix><%= @bi_directory_prefix %></directory-prefix>
         <overwrite>true</overwrite>
         <file-system>hdfs</file-system>
         <shared-directory/>
@@ -20,11 +20,11 @@
         <biadmin-userid>biadmin</biadmin-userid>
         <biadmin-groupid>biadmin</biadmin-groupid>
         <public-key/>
-        <biadmin-password><%= biadmin_password %></biadmin-password>
+        <biadmin-password><%= @biadmin_password %></biadmin-password>
         <current-user-password>{xor}</current-user-password>
     </ssh>
     <Console>
-        <node><%= master_hostname %></node>
+        <node><%= @master_hostname %></node>
         <sso-domain-name>imdemocloud.com</sso-domain-name>
         <https>true</https>
         <ssl-certificate/>
@@ -53,7 +53,7 @@
     </Console>
     <Jaql-server>
         <configure>true</configure>
-        <node><%= master_hostname %></node>
+        <node><%= @master_hostname %></node>
         <jaql-server-port>8200</jaql-server-port>
     </Jaql-server>
     <Jaql>
@@ -62,7 +62,7 @@
     </Jaql>
     <Derby>
         <configure>true</configure>
-        <node><%= master_hostname %></node>
+        <node><%= @master_hostname %></node>
         <backup-node/>
         <port>1528</port>
         <bind-specific-nic>false</bind-specific-nic>
@@ -72,26 +72,26 @@
             <cache-directory>hadoop/mapred/local</cache-directory>
             <log-directory>var/ibm/biginsights/hadoop/logs</log-directory>
             <mapred-system-directory>/hadoop/mapred/system</mapred-system-directory>
-            <apache-mapred><%= hadoop_distribution %></apache-mapred>
+            <apache-mapred><%= @hadoop_distribution %></apache-mapred>
         </general>
         <hdfs>
             <configure>true</configure>
         </hdfs>
         <namenode>
-            <node><%= master_hostname %></node>
+            <node><%= @master_hostname %></node>
             <namenode-port>9000</namenode-port>
             <namenode-http-port>50070</namenode-http-port>
             <name-directory>hadoop/hdfs/name</name-directory>
             <jmx-port>8004</jmx-port>
         </namenode>
         <jobtracker>
-            <node><%= master_hostname %></node>
+            <node><%= @master_hostname %></node>
             <jobtracker-port>9001</jobtracker-port>
             <jobtracker-http-port>50030</jobtracker-http-port>
             <jmx-port>8006</jmx-port>
         </jobtracker>
         <secondarynamenode>
-            <node><%= master_hostname %></node>
+            <node><%= @master_hostname %></node>
             <secondarynamenode-http-port>50090</secondarynamenode-http-port>
             <data-directory-2nn>hadoop/hdfs/namesecondary</data-directory-2nn>
         </secondarynamenode>
@@ -111,7 +111,7 @@
     </Avro>
     <Hive>
         <configure>true</configure>
-        <hwi-node><%= master_hostname %></hwi-node>
+        <hwi-node><%= @master_hostname %></hwi-node>
         <query-directory>var/ibm/biginsights/hive/query</query-directory>
         <log-directory>var/ibm/biginsights/hive/logs</log-directory>
         <hwi-port>9999</hwi-port>
@@ -126,12 +126,12 @@
     </Pig>
     <Oozie>
         <configure>true</configure>
-        <node><%= master_hostname %></node>
+        <node><%= @master_hostname %></node>
         <oozie-port>8280</oozie-port>
     </Oozie>
     <Zookeeper>
         <configure>true</configure>
-        <nodes><%= master_hostname %></nodes>
+        <nodes><%= @master_hostname %></nodes>
         <data-directory>var/ibm/biginsights/zookeeper/data</data-directory>
         <log-directory>var/ibm/biginsights/zookeeper/logs</log-directory>
         <client-port>2181</client-port>
@@ -143,7 +143,7 @@
     <HBase>
         <configure>true</configure>
         <zookeeper-mode>shared</zookeeper-mode>
-        <master-nodes><%= master_hostname %></master-nodes>
+        <master-nodes><%= @master_hostname %></master-nodes>
         <install-mode>fully</install-mode>
         <region-nodes-install-option>All</region-nodes-install-option>
         <region-nodes/>
@@ -163,7 +163,7 @@
     </Flume>
     <node-list>
         <node>
-            <name-or-ip><%= master_hostname %></name-or-ip>
+            <name-or-ip><%= @master_hostname %></name-or-ip>
             <password>{xor}</password>
             <rack/>
             <hdfs-data-directory>hadoop/hdfs/data</hdfs-data-directory>
@@ -173,7 +173,7 @@
         </node>
 <% data_node_unique_hostnames.split(",").each do |unique_hostname| %>
         <node>
-            <name-or-ip><%= unique_hostname %>-internal.imdemocloud.com</name-or-ip>
+            <name-or-ip><%= @unique_hostname %>-internal.imdemocloud.com</name-or-ip>
             <password>{xor}</password>
             <rack/>
             <hdfs-data-directory>hadoop/hdfs/data</hdfs-data-directory>
@@ -214,7 +214,7 @@
     <enterprise>
         <Orchestrator>
             <configure>true</configure>
-            <node><%= master_hostname %></node>
+            <node><%= @master_hostname %></node>
             <port>8888</port>
         </Orchestrator>
         <GuardiumProxy>
@@ -226,7 +226,7 @@
         </GuardiumProxy>
         <BigSQL>
             <configure>true</configure>
-            <node><%= master_hostname %></node>
+            <node><%= @master_hostname %></node>
             <NIC>0.0.0.0</NIC>
             <port>7052</port>
         </BigSQL>
