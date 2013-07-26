@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+#latest version
 require 'rubygems'
 require 'rest_client'
 require 'json'
@@ -8,14 +8,15 @@ require 'erb'
 require 'aws-sdk'
 require 'uri'
 require 'net/ftp'
- 
+
 DEFAULT_CONFIGURATION_YML = '/var/imcloud/imcloud_client.yml'
 
 module IMCloudClient
   class << self
     attr_writer :configuration
+
     def configuration
-      @configuration ||= Configuration.new
+       @configuration ||= Configuration.new
     end
 
     #########################
@@ -29,7 +30,7 @@ module IMCloudClient
       product_name = ERB::Util.url_encode(product_name)
       format = args[:format] || "json"
       response = RestClient.get("#{configuration.download_url}/#{product_name}.#{format}",
-      :params => args.merge(:api_key => configuration.api_key))
+                                :params => args.merge(:api_key => configuration.api_key))
       format.to_s == "json" ? JSON.parse(response.to_str) : response.to_str
     end
 
@@ -62,6 +63,7 @@ module IMCloudClient
       elsif protocol =~ /ftp/
         ftp_user = uri.user
         ftp_password = uri.password
+        
         Net::FTP.open(hostname) do |ftp|
           begin
             if ftp_user && ftp_password
