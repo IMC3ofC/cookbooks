@@ -35,6 +35,36 @@ attribute "biginsights/biadmin/password",
    :default => "passw0rd",
    :recipes => ["ibm-rightscale::install_biginsights_quickstart"]     
      
+attribute "biginsights/master_hostname",
+   :display_name => "Big Insights master hostname",
+   :description => "Hostname for the Big Insights master node.",
+   :required => "recommended",
+   :default => "localhost",
+   :recipes => ["ibm-rightscale::install_biginsights_quickstart"]     
+     
+attribute "biginsights/bi_directory_prefix",
+   :display_name => "Big Insights directory prefix",
+   :description => "Directory prefix for Big Insights installation location.",
+   :required => "recommended",
+   :default => "/",
+   :recipes => ["ibm-rightscale::install_biginsights_quickstart"]    
+     
+attribute "biginsights/hadoop_distribution",
+   :display_name => "Big Insights Hadoop distribution",
+   :description => "Hadoop distribution name for Big Insights.",
+   :required => "recommended",
+   :default => "Apache",
+   :recipes => ["ibm-rightscale::install_biginsights_quickstart"]    
+     
+attribute "biginsights/data_node_unique_hostnames",
+   :display_name => "Big Insights data node hostnames",
+   :description => "Hostnames for the Big Insights data nodes.",
+   :required => "recommended",
+   :type => "array",
+   :default => ["localhost"],
+   :recipes => ["ibm-rightscale::install_biginsights_quickstart"]                
+   
+     
 
 ### INPUTS FOR INSTANCE OWNER
 

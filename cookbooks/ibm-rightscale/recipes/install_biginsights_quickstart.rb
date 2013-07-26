@@ -170,10 +170,10 @@ template "/tmp/hdfs_install.xml" do
   source "hdfs_install.xml.erb"
   variables(
     :biadmin_password => node[:biginsights][:biadmin][:password],
-    :master_hostname => 'localhost',
-    :bi_directory_prefix => '/',
-    :hadoop_distribution => 'Apache',
-    :data_node_unique_hostnames => ['localhost']
+    :master_hostname => node[:biginsights][:master_hostname],
+    :bi_directory_prefix => node[:biginsights][:bi_directory_prefix],
+    :hadoop_distribution => node[:biginsights][:hadoop_distribution],
+    :data_node_unique_hostnames => node[:biginsights][:data_node_unique_hostnames]
   )
   notifies :run, "execute[extract-biginsights-media]", :immediately
   notifies :run, "bash[install-biginsights]", :immediately
