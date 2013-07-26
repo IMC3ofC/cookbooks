@@ -5,33 +5,86 @@ require 'rest_client'
 require 'json'
 require 'yaml'
 require 'erb'
+require 'aws-sdk'
+require 'uri'
+require 'net/ftp'
+
 DEFAULT_CONFIGURATION_YML = '/var/imcloud/imcloud_client.yml'
 
 module IMCloudClient
   class << self
     attr_writer :configuration
-
     def configuration
-       @configuration ||= Configuration.new
+      @configuration ||= Configuration.new
     end
 
     #########################
     # Product downloads API #
     #########################
 
-    def download_url(product_name, args={})
+    # Returns a hash containing URL and protocol for a given product/cloud/geography
+    def url(product_name, args = {})
       configure if @configuration.nil?
 
       product_name = ERB::Util.url_encode(product_name)
       format = args[:format] || "json"
       response = RestClient.get("#{configuration.download_url}/#{product_name}.#{format}",
-                                :params => args.merge(:api_key => configuration.api_key))
+      :params => args.merge(:api_key => configuration.api_key))
       format.to_s == "json" ? JSON.parse(response.to_str) : response.to_str
+    end
+
+    # Downloads the file for a given product to a chosen local_path directory location
+    def download(local_path, product_name, args = {})
+      hash = url(product_name, args)
+
+      protocol = hash['protocol']
+      uri = URI(hash['url'])
+
+      hostname = uri.host
+      filename = File.basename(uri.path)
+
+      if protocol =~ /http/
+        Net::HTTP.start(hostname) do |http|
+          begin
+            file = open("#{local_path}/#{filename}", "wb")
+            http.request_get(uri.path) do |resp|
+              resp.read_body do |segment|
+                file.write(segment)
+              end
+            end
+          rescue
+            # Return code needed by scripts calling this method
+            return -1
+          ensure
+            file.close
+          end
+        end
+      elsif protocol =~ /ftp/
+        ftp_user = uri.user
+        ftp_password = uri.password
+        Net::FTP.open(hostname) do |ftp|
+          begin
+            if ftp_user && ftp_password
+              ftp.login(ftp_user, ftp_password)
+            else
+              ftp.login
+            end
+            ftp.getbinaryfile(uri.path, "#{local_path}/#{filename}")
+          rescue
+            # Return code needed by scripts calling this method
+            return -1
+          end
+        end
+      end
+
+      # Success
+      return 0
     end
 
     # Dynamically generates methods such as
     # aws_us_east_1 and aws_ap_northeast_1 on the fly.
     def method_missing(m, *args, &block)
+      path = args.shift
       product = args.shift
       format = args.shift
       tokens = m.to_s.split("_")
@@ -40,9 +93,9 @@ module IMCloudClient
       geography = tokens.join("-")
 
       if format
-        download_url(product, {:cloud => cloud, :geography => geography, :format => format})
+        download(path, product, {:cloud => cloud, :geography => geography, :format => format})
       else
-        download_url(product, {:cloud => cloud, :geography => geography})
+        download(path, product, {:cloud => cloud, :geography => geography})
       end
     end
   end
