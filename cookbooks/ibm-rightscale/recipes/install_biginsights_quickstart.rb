@@ -2,7 +2,7 @@ rightscale_marker :begin
 
 log "Setting up Download API"
 
-## Require libraries
+## Require libraries 
 
 class Chef::Recipe
   include IMCloudClient
