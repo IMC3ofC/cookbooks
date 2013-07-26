@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#update version for downloads
+
 require 'rubygems'
 require 'rest_client'
 require 'json'
