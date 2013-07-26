@@ -8,7 +8,7 @@ require 'erb'
 require 'aws-sdk'
 require 'uri'
 require 'net/ftp'
-
+ 
 DEFAULT_CONFIGURATION_YML = '/var/imcloud/imcloud_client.yml'
 
 module IMCloudClient
