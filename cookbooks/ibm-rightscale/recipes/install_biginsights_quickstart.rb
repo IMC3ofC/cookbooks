@@ -19,14 +19,17 @@ IMCloudClient.configure do |config|
   config.api_url = node[:api][:url]
 end
 
-to_download = IMCloudClient.download_url('BigInsights Quickstart 2.1', { :cloud => "http" })
+##to_download = IMCloudClient.download_url('BigInsights Quickstart 2.1', { :cloud => "http" })
 
-install_media_location = File.join("/tmp", to_download.first["download"]["url"].split("/").last)
+IMCloudClient.download('/tmp', 'BigInsights Quickstart 2.1', { :cloud => "http" })
+  
+  
+##install_media_location = File.join("/tmp", to_download.first["download"]["url"].split("/").last)
 
-remote_file install_media_location do
-  source to_download.first["download"]["url"]
-  not_if { ::File.exists?(install_media_location) }
-end
+##remote_file install_media_location do
+##  source to_download.first["download"]["url"]
+##  not_if { ::File.exists?(install_media_location) }
+##end
 
 log "Installing BigInsights Quickstart 2.1"
 
