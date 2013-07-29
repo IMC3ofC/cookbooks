@@ -173,7 +173,7 @@
         </node>
 <% @data_node_unique_hostnames.split(",").each do |unique_hostname| %>
         <node>
-            <name-or-ip><%= @unique_hostname %>-internal.imdemocloud.com</name-or-ip>
+            <name-or-ip><%= unique_hostname %>-internal.imdemocloud.com</name-or-ip>
             <password>{xor}</password>
             <rack/>
             <hdfs-data-directory>hadoop/hdfs/data</hdfs-data-directory>
