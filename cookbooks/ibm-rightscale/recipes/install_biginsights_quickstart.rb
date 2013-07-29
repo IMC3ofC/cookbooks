@@ -168,9 +168,9 @@ bash "setup-ibm-java" do
   action :nothing
 end
 
-log "  Configure BigInsights Install Response file - /tmp/hdfs_install.xml"
-template "/tmp/hdfs_install.xml" do
-  source "hdfs_install.xml.erb"
+log "  Configure BigInsights Install Response file - /tmp/install.xml"
+template "/tmp/install.xml" do
+  source "install.xml.erb"
   variables(
     :biadmin_password => node[:biginsights][:biadmin][:password],
     :master_hostname => node[:biginsights][:master_hostname],
