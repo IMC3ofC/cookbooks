@@ -5,7 +5,6 @@ require 'rest_client'
 require 'json'
 require 'yaml'
 require 'erb'
-require 'aws-sdk'
 require 'uri'
 require 'net/ftp'
 
