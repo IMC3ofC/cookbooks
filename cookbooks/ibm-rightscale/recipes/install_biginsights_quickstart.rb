@@ -2,6 +2,7 @@ rightscale_marker :begin
 
 log "Setting up Download API"
 
+
 ## Require libraries 
 
 class Chef::Recipe
@@ -12,6 +13,9 @@ require "rightscale_tools"
 
 log "Provider: #{node[:cloud][:provider]}"
 
+
+## Download Attachments
+
 log "Download Attachments"
 
 IMCloudClient.configure do |config|
@@ -19,83 +23,15 @@ IMCloudClient.configure do |config|
   config.api_url = node[:api][:url]
 end
 
-##to_download = IMCloudClient.download_url('BigInsights Quickstart 2.1', { :cloud => "http" })
-
 IMCloudClient.download('/tmp', 'BigInsights Quickstart 2.1', { :cloud => "http" })
   
-  
-##install_media_location = File.join("/tmp", to_download.first["download"]["url"].split("/").last)
 
-##remote_file install_media_location do
-##  source to_download.first["download"]["url"]
-##  not_if { ::File.exists?(install_media_location) }
-##end
+## Installing BigInsights Quickstart 2.1
 
 log "Installing BigInsights Quickstart 2.1"
 
-#########
-#TODO: CHANGE CODE BELOW - Testing ryan
-#########
-
-
-### Samples ####
-
-# * bash resource... alias/shortcut of execute
-# bash "Setup the hosts file" do
-#   user "root"
-#   code <<-EOH
-#   sudo sh -c "echo \\"127.0.0.1 api.#{domain}\\" >> /etc/hosts"
-#   sudo sh -c "echo \\"127.0.0.1 uaa.#{domain}\\" >> /etc/hosts"
-#   sudo sh -c "echo \\"127.0.0.1 service-broker.#{domain}\\" >> /etc/hosts"
-#   EOH
-# end
-
-# * service resource (if already installed)... start is the default
-# service "nats_server" do
-#   action :start
-# end
-
-# * execute a command
-# execute "restart postgresql 8.4" do
-#   user "root"
-#   command "/etc/init.d/postgresql-8.4 restart"
-# end
-
-# * start a daemon
-# execute "Restart admin_ui" do
-#   user "root"
-#   command "nohup /etc/init.d/admin_ui restart >/dev/null 2>&1 &"
-# end
-
-# * group resource (http://docs.opscode.com/resource_group.html)
-# group "name" do
-  #   some_attribute "value" # see attributes section below
-  #   action :action # see actions section below
-  # end
-
-# * user resource (http://docs.opscode.com/resource_user.html)
-# user "random" do
-#   comment "Random User"
-#   uid 1234
-#   gid "users"
-#   home "/home/random"
-#  shell "/bin/bash"
-#   password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
-# end
-
-# * directory resource
-# %w{some folders}.each do |dir|
-#   directory File.join("/tmp", dir) do
-#     mode 0755
-#     action :create
-#   end
-# end
-
-### ###
-
 log "  Install prerequisites."
 
-#not sure what is needed for ubuntu
 case node[:platform]
 when "debian", "ubuntu"
   execute "install-required-packages" do
@@ -118,6 +54,8 @@ else
   #end
 end
 
+log "  Create directories."
+
 # TODO make this survive the shell (at init time?)
 bash "create-directories" do
   code <<-EOH
@@ -134,17 +72,16 @@ bash "create-directories" do
   EOH
 end
 
-execute_as_user "echo-password" do
-  command "echo #{node[:biginsights][:biadmin][:password]}"
-  user "root"
-  action :run
-end
-
+log "  Run the BI admin setup script."
+  
 cookbook_file "/tmp/setup_biadmin.sh" do
   mode 00777
 end
 
 execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
+
+
+log "  Run BI installation script."
 
 execute "extract-biginsights-media" do
   command "tar --index-file /tmp/biginsights.tar.log -xvvf /tmp/biginsights-quickstart-linux64_*.tar.gz -C /mnt/"
@@ -184,6 +121,8 @@ template "/tmp/install.xml" do
 end
 
 
+log "  Stubs for the JAQL exercises and sample apps."
+
 bash "copy-jaql-excercises" do
   code <<-EOH
   echo "Copy the Jaql Exercises file"
@@ -196,15 +135,13 @@ bash "setup-sample-data" do
   EOH
 end
   
+
+log "  Sync the Hadoop configuration."
+
 bash "sync-hadoop-config" do
   code <<-EOH
   su - biadmin -c "echo 'y' | syncconf.sh hadoop force"
   EOH
 end
-  
-#file install_media_location do
-#  action :delete
-#end
-
 
 rightscale_marker :end
