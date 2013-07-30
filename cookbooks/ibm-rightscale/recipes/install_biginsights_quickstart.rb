@@ -1,8 +1,5 @@
 rightscale_marker :begin
 
-log "Setting up Download API"
-
-
 ## Require libraries 
 
 class Chef::Recipe
@@ -54,9 +51,19 @@ else
   #end
 end
 
-log "  Create directories."
+log "  Set open files limits."
 
 # TODO make this survive the shell (at init time?)
+bash "set-ulimits" do
+  code <<-EOH
+  ulimit -n 16384
+  echo "root hard nofile 16384" >> /etc/security/limits.conf
+  echo "root soft nofile 16384" >> /etc/security/limits.conf
+  EOH
+end
+
+log "  Create directories."
+
 bash "create-directories" do
   code <<-EOH
   mkdir /mnt/hadoop
@@ -79,7 +86,6 @@ cookbook_file "/tmp/setup_biadmin.sh" do
 end
 
 execute "/tmp/setup_biadmin.sh #{node[:biginsights][:biadmin][:password]}"
-
 
 log "  Run BI installation script."
 
@@ -120,7 +126,6 @@ template "/tmp/install.xml" do
   notifies :run, "bash[setup-ibm-java]", :immediately
 end
 
-
 log "  Stubs for the JAQL exercises and sample apps."
 
 bash "copy-jaql-excercises" do
@@ -135,7 +140,6 @@ bash "setup-sample-data" do
   EOH
 end
   
-
 log "  Sync the Hadoop configuration."
 
 bash "sync-hadoop-config" do
