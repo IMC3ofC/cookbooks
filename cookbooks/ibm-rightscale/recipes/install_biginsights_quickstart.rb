@@ -56,7 +56,6 @@ log "  Set open files limits."
 # TODO make this survive the shell (at init time?)
 bash "set-ulimits" do
   code <<-EOH
-  ulimit -n 16384
   echo "root hard nofile 16384" >> /etc/security/limits.conf
   echo "root soft nofile 16384" >> /etc/security/limits.conf
   EOH
@@ -96,6 +95,7 @@ end
   
 bash "install-biginsights" do
   code <<-EOH
+  ulimit -n 16384
   /mnt/biginsights-quickstart-linux64_*/silent-install/silent-install.sh /tmp/install.xml
   sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
   echo 'export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin' >> /home/biadmin/.bashrc 
