@@ -116,7 +116,7 @@ template "/tmp/install.xml" do
   source "install.xml.erb"
   variables(
     :biadmin_password => node[:biginsights][:biadmin][:password],
-    :master_hostname => node[:biginsights][:master_hostname],
+    :master_hostname => node[:cloud][:public_ipv4],
     :bi_directory_prefix => node[:biginsights][:bi_directory_prefix],
     :hadoop_distribution => node[:biginsights][:hadoop_distribution],
     :data_node_unique_hostnames => node[:biginsights][:data_node_unique_hostnames]
