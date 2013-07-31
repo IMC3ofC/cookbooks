@@ -61,6 +61,43 @@ bash "set-ulimits" do
   EOH
 end
 
+bash "update firewall" do
+  code <<-EOH
+  iptables -A FWR -p tcp -m tcp --dport  8888 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 9999 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 50090 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  50070 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 50030 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  60030 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  50075 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  50010 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 60010 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  9000 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  9001 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  1528 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  9093 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  10000 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8280 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  50020 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 10101 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 10102 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  60020 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  7052 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  60000 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport 9099 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  2181 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  2182 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8200 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8443 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8004 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8006 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  8007 -j ACCEPT
+  iptables -A FWR -p tcp -m tcp --dport  9443 -j ACCEPT
+  EOH
+end
+
+
+
 log "  Create directories."
 
 bash "create-directories" do
