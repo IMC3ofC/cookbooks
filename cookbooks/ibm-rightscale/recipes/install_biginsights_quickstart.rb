@@ -11,12 +11,6 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   require "rightscale_tools"
   
-  sys_firewall "Open this server's ports to all servers with this 'tag' " do
-    machine_tag "servertag:active=true"
-    port 8080
-    enable true
-    action :update
-  end
   
   log "Provider: #{node[:cloud][:provider]}"
   
@@ -72,36 +66,12 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   bash "update firewall" do
     code <<-EOH
-    iptables -A FWR -p tcp -m tcp --dport  8888 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 9999 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 50090 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  50070 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 50030 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  60030 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  50075 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  50010 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 60010 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  9000 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  9001 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  1528 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  9093 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  10000 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8280 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  50020 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 10101 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 10102 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  60020 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  7052 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  60000 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport 9099 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  2181 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  2182 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8200 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8443 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8004 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8006 -j ACCEPT
-    iptables -A FWR -p tcp -m tcp --dport  8007 -j ACCEPT
+    yum install policycoreutils -y
+    iptables -D FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
+    iptables -A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT 
     iptables -A FWR -p tcp -m tcp --dport  9443 -j ACCEPT
+    iptables -A FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
+    service iptables save
     EOH
   end
   
