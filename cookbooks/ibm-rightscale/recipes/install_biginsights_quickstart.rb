@@ -11,6 +11,13 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   require "rightscale_tools"
   
+  sys_firewall "Open this server's ports to all servers with this 'tag' " do
+    machine_tag "servertag:active=true"
+    port 8080
+    enable true
+    action :update
+  end
+  
   log "Provider: #{node[:cloud][:provider]}"
   
   
