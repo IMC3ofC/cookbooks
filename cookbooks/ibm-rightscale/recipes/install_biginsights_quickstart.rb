@@ -140,7 +140,7 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   hostname = ""
   if "ec2".eql? node[:cloud][:provider]
     hostname = node[:cloud][:public_hostname]
-  else "softlayer".eql? node[:cloud][:provider]
+  elsif "softlayer".eql? node[:cloud][:provider]
     hostname = node[:cloud][:public_ipv4]
   end
 
