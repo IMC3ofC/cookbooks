@@ -64,15 +64,17 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     EOH
   end
   
-  bash "update firewall" do
-    code <<-EOH
-    yum install policycoreutils -y
-    echo "-A FWR --protocol tcp --dport 9443 -j ACCEPT" >> /etc/iptables.d/port_9443_any_tcp
-    echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
-    service iptables save
-    EOH
+  case node[:cloud][:provider]
+    when "softlayer"
+    bash "update firewall" do
+      code <<-EOH
+      yum install policycoreutils -y
+      echo "-A FWR --protocol tcp --dport 9443 -j ACCEPT" >> /etc/iptables.d/port_9443_any_tcp
+      echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
+      service iptables save
+      EOH
+    end
   end
-  
   
   
   log "  Create directories."
