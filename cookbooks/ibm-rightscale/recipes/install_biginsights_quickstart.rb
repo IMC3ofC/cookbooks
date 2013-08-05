@@ -63,9 +63,10 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     echo "root soft nofile 16384" >> /etc/security/limits.conf
     EOH
   end
-  
-  case node[:cloud][:provider]
-    when "softlayer"
+
+  log "  Tweak firewall."
+    
+  if "softlayer".eql? node[:cloud][:provider] 
     bash "update firewall" do
       code <<-EOH
       yum install policycoreutils -y
@@ -76,14 +77,13 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     end
   end
   
-  case node[:cloud][:provider]
-      when "ec2"
-      bash "update hosts" do
-        code <<-EOH
-        echo '127.0.0.1   localhost   localhost.localdomain #{node[:cloud][:public_hostname]}' > /etc/hosts
-        EOH
-      end
+  if "ec2".eql? node[:cloud][:provider]
+    bash "update hosts" do
+      code <<-EOH
+      echo '127.0.0.1   localhost   localhost.localdomain #{node[:cloud][:public_hostname]}' > /etc/hosts
+      EOH
     end
+  end
   
   
   log "  Create directories."
@@ -138,11 +138,18 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   log "  Configure BigInsights Install Response file - /tmp/install.xml"
   
+  hostname = ""
+  if "ec2".eql? node[:cloud][:provider] 
+    hostname = node[:cloud][:public_hostname]
+  else if "softlayer".eql? node[:cloud][:provider] 
+    hostname = node[:cloud][:public_ipv4]
+  end
+  
   template "/tmp/install.xml" do
     source "install.xml.erb"
     variables(
       :biadmin_password => node[:biginsights][:biadmin][:password],
-      :master_hostname => node[:cloud][:public_ipv4],
+      :master_hostname => hostname,
       :bi_directory_prefix => node[:biginsights][:bi_directory_prefix],
       :hadoop_distribution => node[:biginsights][:hadoop_distribution],
       :data_node_unique_hostnames => node[:biginsights][:data_node_unique_hostnames]
