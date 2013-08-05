@@ -80,8 +80,7 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
       when "ec2"
       bash "update hosts" do
         code <<-EOH
-        yum install policycoreutils -y
-        echo "echo '127.0.0.1   localhost   localhost.localdomain #{node[:cloud][:public_hostname]}' > /etc/hosts
+        echo '127.0.0.1   localhost   localhost.localdomain #{node[:cloud][:public_hostname]}' > /etc/hosts
         EOH
       end
     end
