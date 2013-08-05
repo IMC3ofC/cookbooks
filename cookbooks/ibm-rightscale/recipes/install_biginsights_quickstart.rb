@@ -76,6 +76,16 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     end
   end
   
+  case node[:cloud][:provider]
+      when "ec2"
+      bash "update hosts" do
+        code <<-EOH
+        yum install policycoreutils -y
+        echo "echo '127.0.0.1   localhost   localhost.localdomain #{node[:cloud][:public_hostname]}' > /etc/hosts
+        EOH
+      end
+    end
+  
   
   log "  Create directories."
   
@@ -128,6 +138,7 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   end
   
   log "  Configure BigInsights Install Response file - /tmp/install.xml"
+  
   template "/tmp/install.xml" do
     source "install.xml.erb"
     variables(
@@ -141,6 +152,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     notifies :run, "bash[install-biginsights]", :immediately
     notifies :run, "bash[setup-ibm-java]", :immediately
   end
+  
+  
   
   log "  Stubs for the JAQL exercises and sample apps."
   
