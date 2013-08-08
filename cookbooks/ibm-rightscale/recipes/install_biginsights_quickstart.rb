@@ -177,7 +177,7 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   bash "sync-hadoop-config" do
     code <<-EOH
-    su - biadmin -c "echo 'y' | syncconf.sh hadoop force"
+    su - biadmin -c "echo 'y' | /mnt/biginsights-quickstart-linux64_*//installer/mgmtnode-overlay/bin/syncconf.sh hadoop force"
     EOH
   end
   
