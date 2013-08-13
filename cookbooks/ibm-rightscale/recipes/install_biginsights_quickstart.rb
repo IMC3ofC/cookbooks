@@ -108,6 +108,22 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     EOH
   end
   
+  if "ec2".eql? node[:cloud][:provider]
+       bash "dir test" do
+         code <<-EOH
+         rm /hadoop
+         rm /var/ibm
+         mkdir -p /mnt/ephemeral/opt/ibm
+         mkdir -p /mnt/ephemeral/var/ibm
+         mkdir -p /mnt/ephemeral/hadoop
+         ln -s /mnt/ephemeral/var/ibm /var/ibm
+         ln -s /mnt/ephemeral/opt/ibm /opt/ibm
+         ln -s /mnt/ephemeral/hadoop /hadoop
+         EOH
+       end
+  end
+  
+  
   log "  Run the BI admin setup script."
     
   cookbook_file "/tmp/setup_biadmin.sh" do
