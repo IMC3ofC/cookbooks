@@ -70,6 +70,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     bash "update firewall" do
       code <<-EOH
       yum install policycoreutils -y
+      iptables -A FWR --protocol tcp --dport 9443 -j ACCEPT
+      iptables -A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT
       echo "-A FWR --protocol tcp --dport 9443 -j ACCEPT" >> /etc/iptables.d/port_9443_any_tcp
       echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
       service iptables save
