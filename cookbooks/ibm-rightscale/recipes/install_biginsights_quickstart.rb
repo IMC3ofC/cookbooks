@@ -66,8 +66,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
 
   log "  Tweak firewall."
 
-  if "softlayer".eql? node[:cloud][:provider]
-    bash "update firewall" do
+  
+  bash "update firewall" do
       code <<-EOH
       yum install policycoreutils -y
       iptables -D FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
@@ -80,8 +80,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
       echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
       service iptables save
       EOH
-    end
   end
+
 
   if "ec2".eql? node[:cloud][:provider]
     bash "update hosts" do
