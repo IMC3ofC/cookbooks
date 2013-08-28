@@ -164,6 +164,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     hostname = node[:cloud][:public_hostname]
   elsif "softlayer".eql? node[:cloud][:provider]
     hostname = node[:cloud][:public_ipv4]
+  else 
+    hostname = 'localhost'
   end
 
   template "/tmp/install.xml" do
