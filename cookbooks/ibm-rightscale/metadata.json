@@ -447,5 +447,5 @@
     "ibm-rightscale::restore_database": "Restore DB2 Database",
     "ibm-rightscale::install_biginsights_quickstart": "Install BigInsights Quickstart v?"
   },
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
