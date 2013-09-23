@@ -27,7 +27,7 @@
       "required": "recommended",
       "default": "db2inst1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c",
+        "ibm-db2-express-c::default",
         "ibm-db2-express-c::start_db2",
         "ibm-db2-express-c::stop_db2",
         "ibm-db2-express-c::start_db2_administration_server",
@@ -48,7 +48,7 @@
       "required": "recommended",
       "default": "passw0rd",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -62,7 +62,7 @@
       "required": "recommended",
       "default": "db2iadm1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -76,7 +76,7 @@
       "required": "recommended",
       "default": "dasusr1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -90,7 +90,7 @@
       "required": "recommended",
       "default": "passw0rd",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -104,7 +104,7 @@
       "required": "recommended",
       "default": "dasadm1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -118,7 +118,7 @@
       "required": "recommended",
       "default": "db2fenc1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -132,7 +132,7 @@
       "required": "recommended",
       "default": "passw0rd",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -146,7 +146,7 @@
       "required": "recommended",
       "default": "db2fadm1",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -160,7 +160,7 @@
       "required": "recommended",
       "default": "/mnt/database",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -174,7 +174,7 @@
       "required": "recommended",
       "default": "DB2onRS",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -233,7 +233,7 @@
       "required": "optional",
       "default": "643a4018ad2c16314ad4ddf6aecfbd4bd34be3bd95ccfe146d1b9be214e406aa",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
@@ -247,7 +247,7 @@
       "required": "optional",
       "default": "https://my.imdemocloud.com:443/api",
       "recipes": [
-        "ibm-db2-express-c::install_db2_express_c"
+        "ibm-db2-express-c::default"
       ],
       "choice": [
 
