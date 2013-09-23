@@ -17,7 +17,7 @@ IMCloudClient.configure do |config|
   config.api_url = node[:api][:url]
 end
   
-IMCloudClient.download('/tmp', 'DB2 Express-C 10.5', { :cloud => "http" })
+IMCloudClient.download('/tmp', 'DB2 Express-C 10.5')
 
 
 log "Installing DB2 Express-C 10.5"
