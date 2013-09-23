@@ -21,13 +21,14 @@ IMCloudClient.download('/tmp', 'DB2 Express-C 10.5 FP1')
 
 install_media_location = "/tmp/special_31160_linuxamd64_expc.tar.gz"
 
-log "Installing DB2 Express-C 10.5"
+log "Installing DB2 Express-C 10.5 FP1"
 
 case node[:platform]
 when "debian", "ubuntu"
   execute "install-required-packages" do
     command "apt-get install -y libgd2-xpm:i386 libgphoto2-2:i386 ia32-libs-multiarch ia32-libs"
   end
+  
   %w{libstdc++6 lib32stdc++6 libaio1 libpam0g:i386}.each do |pkg|
     package pkg
   end
