@@ -33,8 +33,14 @@ when "debian", "ubuntu"
     package pkg
   end
   
+  log "Create link for libpam.so.0"
   link "/lib/i386-linux-gnu/libpam.so.0" do
     to "/lib/libpam.so.0"
+  end
+  
+  execute "link-libpam" do
+    command "ln -s /lib/i386-linux-gnu/libpam.so.0 /lib/libpam.so.0"
+	not_if "test -L /lib/libpam.so.0"
   end
 else
   %w{compat-libstdc++-33 libstdc++-devel dapl dapl-devel libibverbs-devel}.each do |pkg|
