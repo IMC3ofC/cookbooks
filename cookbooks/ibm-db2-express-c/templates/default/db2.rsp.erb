@@ -1,0 +1,47 @@
+PROD                      = EXPRESS_C
+LIC_AGREEMENT             = ACCEPT
+FILE                      = /opt/ibm/db2/V10.5
+INSTALL_TYPE              = CUSTOM
+
+COMP = DB2_UPDATE_SERVICE
+COMP = APPLICATION_DEVELOPMENT_TOOLS
+COMP = BASE_CLIENT
+COMP = JAVA_RUNTIME_SUPPORT
+COMP = LDAP_EXPLOITATION
+COMP = DB2_SAMPLE_DATABASE
+* COMP = TEXT_SEARCH
+* COMP = TSAMP
+
+LANG=EN
+DAS_CONTACT_LIST=LOCAL
+DAS_USERNAME                = <%= node[:db2][:das][:username] %>
+DAS_GROUP_NAME              = <%= node[:db2][:das][:group] %>
+DAS_HOME_DIRECTORY          = <%= '/home/' + node[:db2][:das][:username] %>
+DAS_PASSWORD                = <%= node[:db2][:das][:password] %>
+
+INSTANCE                          = DB2
+DB2.SVCENAME                      = db2c_db2inst1
+DB2.DB2COMM                       = TCPIP
+DB2.PORT_NUMBER                   = 50001
+DB2.CONFIGURE_TEXT_SEARCH         = NO
+* DB2.TEXT_SEARCH_HTTP_SERVICE_NAME = db2j_db2inst1
+* DB2.TEXT_SEARCH_HTTP_PORT_NUMBER  = 55000
+DB2.AUTOSTART                     = YES
+
+*  Instance-owning user
+DB2.NAME                  = <%= node[:db2][:instance][:username] %>
+DB2.GROUP_NAME            = <%= node[:db2][:instance][:group] %>
+DB2.HOME_DIRECTORY        = <%= '/home/' + node[:db2][:instance][:username] %>
+DB2.PASSWORD              = <%= node[:db2][:instance][:password] %>
+
+*  Fenced user
+DB2.FENCED_USERNAME       = <%= node[:db2][:fenced][:username] %>
+DB2.FENCED_GROUP_NAME     = <%= node[:db2][:fenced][:group] %>
+DB2.FENCED_HOME_DIRECTORY = <%= '/home/' + node[:db2][:fenced][:username] %>
+DB2.FENCED_PASSWORD       = <%= node[:db2][:fenced][:password] %>
+
+DB2.DIAGPATH              = <%= node[:db2][:data_path] %>/log
+DB2.DFTDBPATH             = <%= node[:db2][:data_path] %>
+
+DB2SYSTEM                 = <%= node[:db2][:system] %>
+RSP_FILE_NAME             = /tmp/db2.rsp
