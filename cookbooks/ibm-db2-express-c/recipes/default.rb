@@ -19,6 +19,7 @@ end
   
 IMCloudClient.download('/tmp', 'DB2 Express-C 10.5 FP1')
 
+install_media_location = "/tmp/special_31160_linuxamd64_expc.tar.gz"
 
 log "Installing DB2 Express-C 10.5"
 
@@ -68,7 +69,7 @@ else
   end
 
   execute "extract-db2-media" do
-    command "tar --index-file /tmp/db2exc.tar.log -xvvf /tmp/special_31160_linuxamd64_expc.tar.gz -C /mnt/"
+    command "tar --index-file /tmp/db2exc.tar.log -xvvf #{install_media_location} -C /mnt/"
 	action :nothing
   end
 
