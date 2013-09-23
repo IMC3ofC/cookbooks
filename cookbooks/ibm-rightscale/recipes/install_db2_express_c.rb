@@ -8,33 +8,17 @@ class Chef::Recipe
   include IMCloudClient
 end
 
-#rightscale_tools_gem = `ls /var/cache/rightscale/cookbooks/default/*/cookbooks/rightscale/files/default/rightscale_tools-*.gem`.strip
-
-#gem_package "rightscale_tools" do
-#  source rightscale_tools_gem
-#  action :install
-#end
-
-require "rightscale_tools"
-
 log "Provider: #{node[:cloud][:provider]}"
 
 log "Download Attachments"
-storage_cloud = "aws"
-geo           = "us-east-1"
-
+  
 IMCloudClient.configure do |config|
   config.api_key = node[:api][:key]
   config.api_url = node[:api][:url]
 end
+  
+IMCloudClient.download('/tmp', 'DB2 Express-C 10.5', { :cloud => "http" })
 
-to_download = IMCloudClient.download_url('DB2 Express-C 10.5', { :cloud => "http" })
-
-install_media_location = File.join("/tmp", to_download.first["download"]["url"].split("/").last)
-
-remote_file install_media_location do
-  source to_download.first["download"]["url"]
-end
 
 log "Installing DB2 Express-C 10.5"
 
