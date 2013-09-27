@@ -18,13 +18,21 @@ recipe "ibm-biginsights-quickstart::default",  "Install BigInsights Quickstart"
 
 
 ### INPUTS FOR BIG INSIGHTS
+
+attribute "biginsights/console/use_ssl",
+   :display_name => "Use SSL?",
+   :description => "Should https be configured for the web console?.",
+   :required => "recommended",
+   :default => "YES",
+   :choice => ["YES","NO"],
+   :recipes => ["ibm-biginsights-quickstart::default"]
     
 attribute "biginsights/biadmin/password",
    :display_name => "Big Insights password",
    :description => "Password for the Big Insights admin.",
    :required => "recommended",
    :default => "passw0rd",
-   :recipes => ["ibm-biginsights-quickstart::default"]     
+   :recipes => ["ibm-biginsights-quickstart::default"]
      
 attribute "biginsights/master_hostname",
    :display_name => "Big Insights master hostname",

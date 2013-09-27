@@ -21,6 +21,21 @@
   "replacing": {
   },
   "attributes": {
+    "biginsights/console/use_ssl": {
+      "display_name": "Use SSL?",
+      "description": "Should https be configured for the web console?.",
+      "required": "recommended",
+      "default": "YES",
+      "choice": [
+        "YES",
+        "NO"
+      ],
+      "recipes": [
+        "ibm-biginsights-quickstart::default"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
     "biginsights/biadmin/password": {
       "display_name": "Big Insights password",
       "description": "Password for the Big Insights admin.",
