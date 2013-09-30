@@ -26,7 +26,7 @@
         <node><%= @master_hostname %></node>
         <sso-domain-name><%= @master_hostname %></sso-domain-name>
         <https><%= (node[:biginsights][:console][:use_ssl] == "YES") ? "true" : "false" %></https>
-        <management-console-port><%= (node[:biginsights][:console][:use_ssl] == "YES") ? "9443" : "8080" %></management-console-port>
+        <management-console-port><%= node[:biginsights][:console][:port] %></management-console-port>
     </Console>
     <Jaql-server>
         <configure>false</configure>

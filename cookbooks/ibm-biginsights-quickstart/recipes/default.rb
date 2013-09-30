@@ -29,6 +29,8 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
   
   ## Installing BigInsights Quickstart 2.1 FP1
   
+  node[:biginsights][:console][:port] = (node[:biginsights][:console][:use_ssl] == "YES") ? "9443" : "8080"
+  
   log "Installing BigInsights Quickstart 2.1 FP1"
   
   log "  Install prerequisites."
@@ -72,17 +74,15 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
       code <<-EOH
         iptables -D FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
         iptables -D FWR -p udp -j REJECT --reject-with icmp-port-unreachable
-        iptables -A FWR --protocol tcp --dport 9443 -j ACCEPT
+        iptables -A FWR --protocol tcp --dport #{node[:biginsights][:console][:port]} -j ACCEPT
         iptables -A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT
         iptables -A FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
         iptables -A FWR -p udp -j REJECT --reject-with icmp-port-unreachable
-        echo "-A FWR --protocol tcp --dport 9443 -j ACCEPT" >> /etc/iptables.d/port_9443_any_tcp
+        echo "-A FWR --protocol tcp --dport #{node[:biginsights][:console][:port]} -j ACCEPT" >> /etc/iptables.d/port_#{node[:biginsights][:console][:port]}_any_tcp
         echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
         #{restart_iptables_command}
       EOH
     end
-
-
   
   
   if "ec2".eql? node[:cloud][:provider]
@@ -147,14 +147,6 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     /mnt/biginsights-quickstart-linux64_*/silent-install/silent-install.sh /tmp/install.xml
     sed -i 's/guardiumproxy,//' /opt/ibm/biginsights/conf/biginsights.properties
     echo 'export PATH=\$PATH:\${PIG_HOME}/bin:\${HIVE_HOME}/bin:\${JAQL_HOME}/bin:\${FLUME_HOME}/bin:\${HBASE_HOME}/bin' >> /home/biadmin/.bashrc 
-    EOH
-    action :nothing
-  end
-  
-  bash "setup-ibm-java" do
-    code <<-EOH
-    update-alternatives --install "/usr/bin/java" "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java" 0
-    update-alternatives --set "java" "/opt/ibm/db2/V10.5/java/jdk64/jre/bin/java"
     EOH
     action :nothing
   end
