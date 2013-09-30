@@ -63,6 +63,11 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
 
   log "  Tweak firewall."
   
+    restart_iptables_command = "service iptables save"
+    if [ "debian", "ubuntu" ].include?( node[:platform] )
+      restart_iptables_command = "/usr/sbin/rebuild-iptables"
+	end
+	
     bash "update firewall" do
       code <<-EOH
         iptables -D FWR -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j REJECT --reject-with icmp-port-unreachable 
@@ -73,9 +78,12 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
         iptables -A FWR -p udp -j REJECT --reject-with icmp-port-unreachable
         echo "-A FWR --protocol tcp --dport 9443 -j ACCEPT" >> /etc/iptables.d/port_9443_any_tcp
         echo "-A FWR -s #{node[:cloud][:public_ipv4]} -j ACCEPT" >> /etc/iptables.d/port_all_local_tcp
-        service iptables save
+        #{restart_iptables_command}
       EOH
     end
+
+
+  
   
   if "ec2".eql? node[:cloud][:provider]
     bash "update hosts" do
