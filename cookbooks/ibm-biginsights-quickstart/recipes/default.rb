@@ -173,7 +173,6 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     )
     notifies :run, "execute[extract-biginsights-media]", :immediately
     notifies :run, "bash[install-biginsights]", :immediately
-    notifies :run, "bash[setup-ibm-java]", :immediately
   end  
   
   
