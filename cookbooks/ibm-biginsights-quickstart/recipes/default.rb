@@ -24,7 +24,7 @@ unless File.exists? "/opt/ibm/biginsights/conf/biginsights.properties"
     config.api_url = node[:api][:url]
   end
   
-  IMCloudClient.download('/tmp', 'BigInsights Quickstart 2.1 FP1')
+  IMCloudClient.download('/tmp', 'BigInsights Quick Start Edition 2.1 FP1')
     
   
   ## Installing BigInsights Quickstart 2.1 FP1
