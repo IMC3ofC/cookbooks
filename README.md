@@ -1,5 +1,6 @@
 Overview
 ========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/IMC3ofC/cookbooks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Every Chef installation needs a Chef Repository. This is the place where cookbooks, roles, config files and other artifacts for managing systems with Chef will live. We strongly recommend storing this repository in a version control system such as Git and treat it like source code.
 
